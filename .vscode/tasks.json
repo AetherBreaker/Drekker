@@ -1,0 +1,88 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        // {
+        //     "label": "Launch Textual Console",
+        //     "type": "shell",
+        //     "command": "Start-Process",
+        //     "args": [
+        //         "-FilePath",
+        //         "powershell.exe",
+        //         "-ArgumentList",
+        //         "-File \"${workspaceFolder}/tasks/launch_textual_console.ps\" -Parameter1 \"${workspaceFolder}\""
+        //     ],
+        //     "options": {
+        //         "env": {
+        //             "PYTHONPATH": "${workspaceFolder}/src"
+        //         }
+        //     },
+        //     "presentation": {
+        //         "echo": true,
+        //         "reveal": "always",
+        //         "focus": false,
+        //         "panel": "dedicated"
+        //     },
+        //     "hide": true
+        // },
+        // {
+        //     "label": "Launch in External Terminal",
+        //     "type": "shell",
+        //     "command": "Start-Process",
+        //     "args": [
+        //         "-FilePath",
+        //         "powershell.exe",
+        //         "-ArgumentList",
+        //         "-File \"${workspaceFolder}/tasks/launch_textual_webserver.ps1\" -Parameter1 \"${workspaceFolder}\""
+        //     ],
+        //     "options": {
+        //         "env": {
+        //             "PYTHONPATH": "${workspaceFolder}/src"
+        //         }
+        //     },
+        //     "presentation": {
+        //         "echo": true,
+        //         "reveal": "always",
+        //         "focus": false,
+        //         "panel": "dedicated"
+        //     },
+        //     "hide": true
+        // },
+        // {
+        //     "label": "Textual Launch Setup",
+        //     "dependsOn": [
+        //         "Launch Textual Console",
+        //         "Launch in External Terminal"
+        //     ]
+        // }
+        {
+            "label": "Textual Serve Launch Setup",
+            "type": "shell",
+            "command": "${workspaceFolder}/tasks/launch_textual_debug_serve.ps1",
+            "args": ["${workspaceFolder}"],
+            "options": {
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/src"
+                }
+            },
+            "presentation": {
+                "close": true
+            }
+        },
+        {
+            "label": "Textual Launch Setup",
+            "type": "shell",
+            "command": "${workspaceFolder}/tasks/launch_textual_debug.ps1",
+            "args": ["${workspaceFolder}"],
+            "options": {
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/src"
+                }
+            },
+            "presentation": {
+                "close": true
+            }
+        }
+    ]
+}

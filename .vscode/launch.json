@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Project: Serve",
+            "type": "debugpy",
+            "request": "attach",
+            "justMyCode": true,
+            "connect": {
+                "host": "127.0.0.1",
+                "port": 5678
+            },
+            "preLaunchTask": "Textual Serve Launch Setup"
+        },
+        {
+            "name": "Project",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/drekker/__init__.py",
+            "console": "externalTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src/drekker/",
+                "TEXTUAL": "devtools"
+            },
+            "pythonArgs": [
+                "-X",
+                "pycache_prefix=${workspaceFolder}/PYCACHE",
+                "-u"
+            ],
+            "preLaunchTask": "Textual Launch Setup"
+        },
+        {
+            "name": "Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "externalTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src/drekker/",
+                "TEXTUAL": "devtools"
+            },
+            "pythonArgs": [
+                "-X",
+                "pycache_prefix=${workspaceFolder}/PYCACHE",
+                "-u"
+            ]
+        }
+    ]
+}

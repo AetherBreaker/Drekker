@@ -1,0 +1,27 @@
+.tabs {
+    content-align: center middle;
+}
+.hatch {
+    height: 1fr;
+    border: solid $secondary;
+    content-align: center middle;
+
+    &.cross {
+        hatch: cross $success;
+    }
+    &.horizontal {
+        hatch: horizontal $success 80%;
+    }
+    &.custom {
+        hatch: "T" $success 60%;
+    }
+    &.left {
+        hatch: left $success 40%;
+    }
+    &.right {
+        hatch: right $success 20%;
+    }
+}
+.content {
+    content-align: center middle;
+}
