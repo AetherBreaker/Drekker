@@ -14,4 +14,7 @@ class Settings(BaseSettings):
     env_file=Path.cwd() / ".env",
     env_file_encoding="utf-8",
     env_ignore_empty=True,
+    extra="ignore",
   )
+
+  debug_wait_for_client: bool = False

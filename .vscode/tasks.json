@@ -3,86 +3,63 @@
     // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
-        // {
-        //     "label": "Launch Textual Console",
-        //     "type": "shell",
-        //     "command": "Start-Process",
-        //     "args": [
-        //         "-FilePath",
-        //         "powershell.exe",
-        //         "-ArgumentList",
-        //         "-File \"${workspaceFolder}/tasks/launch_textual_console.ps\" -Parameter1 \"${workspaceFolder}\""
-        //     ],
-        //     "options": {
-        //         "env": {
-        //             "PYTHONPATH": "${workspaceFolder}/src"
-        //         }
-        //     },
-        //     "presentation": {
-        //         "echo": true,
-        //         "reveal": "always",
-        //         "focus": false,
-        //         "panel": "dedicated"
-        //     },
-        //     "hide": true
-        // },
-        // {
-        //     "label": "Launch in External Terminal",
-        //     "type": "shell",
-        //     "command": "Start-Process",
-        //     "args": [
-        //         "-FilePath",
-        //         "powershell.exe",
-        //         "-ArgumentList",
-        //         "-File \"${workspaceFolder}/tasks/launch_textual_webserver.ps1\" -Parameter1 \"${workspaceFolder}\""
-        //     ],
-        //     "options": {
-        //         "env": {
-        //             "PYTHONPATH": "${workspaceFolder}/src"
-        //         }
-        //     },
-        //     "presentation": {
-        //         "echo": true,
-        //         "reveal": "always",
-        //         "focus": false,
-        //         "panel": "dedicated"
-        //     },
-        //     "hide": true
-        // },
-        // {
-        //     "label": "Textual Launch Setup",
-        //     "dependsOn": [
-        //         "Launch Textual Console",
-        //         "Launch in External Terminal"
-        //     ]
-        // }
         {
-            "label": "Textual Serve Launch Setup",
+            "label": "Textual Console",
             "type": "shell",
-            "command": "${workspaceFolder}/tasks/launch_textual_debug_serve.ps1",
-            "args": ["${workspaceFolder}"],
-            "options": {
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src"
-                }
+            "command": "& ${workspaceFolder}\\.venv\\Scripts\\Activate.ps1; textual console",
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "terminateOldest"
             },
             "presentation": {
-                "close": true
-            }
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "isBackground": true
         },
         {
-            "label": "Textual Launch Setup",
+            "label": "Launch Textual in Dev Mode",
             "type": "shell",
-            "command": "${workspaceFolder}/tasks/launch_textual_debug.ps1",
-            "args": ["${workspaceFolder}"],
+            "command": "wt.exe",
+            "args": [
+                "-d",
+                "${workspaceFolder}",
+                "powershell",
+                "-NoExit",
+                "-Command",
+                "& .\\.venv\\Scripts\\Activate.ps1\\; textual run src/drekker/__main__.py --dev"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "terminateOldest"
+            },
             "options": {
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/src"
+                    "PYTHONPATH": "${workspaceFolder}/src",
+                    "PYTHONPYCACHEPREFIX": "${workspaceFolder}/PYCACHE",
+                    "PYTHONUNBUFFERED": "1",
+                    "TEXTUAL": "devtools"
                 }
             },
             "presentation": {
-                "close": true
-            }
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "isBackground": true
+        },
+        {
+            "label": "Textual Debug: Launch All",
+            "dependsOn": ["Textual Console", "Launch Textual in Dev Mode"],
+            "dependsOrder": "parallel",
+            "isBackground": true
         }
     ]
 }

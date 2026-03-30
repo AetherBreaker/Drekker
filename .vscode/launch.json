@@ -5,52 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Project: Serve",
+            "name": "Attach Debugger to Textual",
             "type": "debugpy",
             "request": "attach",
             "justMyCode": true,
-            "connect": {
+            "listen": {
                 "host": "127.0.0.1",
                 "port": 5678
-            },
-            "preLaunchTask": "Textual Serve Launch Setup"
+            }
         },
         {
-            "name": "Project",
-            "type": "debugpy",
+            "name": "Launch Textual in WT",
+            "type": "PowerShell",
             "request": "launch",
-            "program": "${workspaceFolder}/src/drekker/__init__.py",
-            "console": "externalTerminal",
-            "justMyCode": true,
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src/drekker/",
-                "TEXTUAL": "devtools"
-            },
-            "pythonArgs": [
-                "-X",
-                "pycache_prefix=${workspaceFolder}/PYCACHE",
-                "-u"
+            "script": "ping",
+            "preLaunchTask": "Textual Debug: Launch All",
+            "internalConsoleOptions": "neverOpen"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug Textual",
+            "configurations": [
+                "Attach Debugger to Textual",
+                "Launch Textual in WT"
             ],
-            "preLaunchTask": "Textual Launch Setup"
-        },
-        {
-            "name": "Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "externalTerminal",
-            "justMyCode": true,
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src/drekker/",
-                "TEXTUAL": "devtools"
-            },
-            "pythonArgs": [
-                "-X",
-                "pycache_prefix=${workspaceFolder}/PYCACHE",
-                "-u"
-            ]
+            "stopAll": true
         }
     ]
 }
