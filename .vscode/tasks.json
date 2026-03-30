@@ -6,7 +6,7 @@
         {
             "label": "Textual Console",
             "type": "shell",
-            "command": "& ${workspaceFolder}\\.venv\\Scripts\\Activate.ps1; textual console",
+            "command": "& .\\.venv\\Scripts\\Activate.ps1; textual console",
             "runOptions": {
                 "instanceLimit": 1,
                 "instancePolicy": "terminateOldest"

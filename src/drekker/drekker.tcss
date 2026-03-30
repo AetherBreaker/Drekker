@@ -70,7 +70,9 @@ Tab:hover {
 }
 
 
-
+#--content-tab-attributes {
+    border-left: blank #141414;
+}
 
 
 Tab.-active {
