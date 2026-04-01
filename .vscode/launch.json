@@ -8,7 +8,7 @@
             "name": "Attach Debugger to Textual",
             "type": "debugpy",
             "request": "attach",
-            "justMyCode": true,
+            "justMyCode": false,
             "listen": {
                 "host": "127.0.0.1",
                 "port": 5678
