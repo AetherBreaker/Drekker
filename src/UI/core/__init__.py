@@ -1,9 +1,8 @@
 """Core UI module containing reusable tab wrapper class."""
 
-from pydantic.types import T
 from textual.app import ComposeResult
 from textual.containers import Container
-from textual.widgets import TabbedContent, TabPane
+from textual.widgets import TabbedContent
 
 from UI.core.tab_attributes import AttributesTab
 from UI.core.tab_augmentations import AugmentationsTab
@@ -22,26 +21,18 @@ class DrekkerCore(Container):
   all tabs in the future."""
 
   def compose(self) -> ComposeResult:
-    with TabbedContent():
-      with TabPane(title="Attributes", id="attributes"):
-        yield AttributesTab()
-      with TabPane(title="Skills", id="skills"):
-        yield SkillsTab()
-      with TabPane(title="Augmentations", id="augmentations"):
-        yield AugmentationsTab()
-      with TabPane(title="Matrix", id="matrix"):
-        yield MatrixTab()
-      with TabPane(title="Gear", id="gear"):
-        yield GearTab()
-      with TabPane(title="Vehicles", id="vehicles"):
-        yield VehiclesTab()
-      with TabPane(title="Magic & Resonance", id="magic-resonance"):
-        yield MagicResonanceTab()
-      with TabPane(title="Miscellaneous", id="misc"):
-        yield MiscTab()
+    yield CoreTabs()
 
 
-class DrekkerCoreTab(TabbedContent): ...
+class CoreTabs(TabbedContent):
+  async def on_mount(self) -> None:
+    await self.add_pane(AttributesTab())
+    await self.add_pane(SkillsTab())
+    await self.add_pane(AugmentationsTab())
+    await self.add_pane(MatrixTab())
+    await self.add_pane(GearTab())
+    await self.add_pane(VehiclesTab())
+    await self.add_pane(MagicResonanceTab())
+    await self.add_pane(MiscTab())
 
-
-DrekkerCoreTab.mount
+    self.active = "attributes"
