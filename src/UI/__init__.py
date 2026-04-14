@@ -10,5 +10,9 @@ from UI.core import DrekkerCore
 
 
 class DrekkerBaseViewport(Container):
+  """Base viewport for the Drekker character sheet application."""
+
+  BORDER_TITLE = "DrekkerBaseViewport"
+
   def compose(self) -> ComposeResult:
     yield DrekkerCore()

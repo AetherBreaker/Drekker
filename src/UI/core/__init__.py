@@ -20,11 +20,15 @@ class DrekkerCore(Container):
   sheet. For now, it's just a placeholder, but it allows us to easily add common features to
   all tabs in the future."""
 
+  BORDER_TITLE = "DrekkerCore"
+
   def compose(self) -> ComposeResult:
     yield CoreTabs()
 
 
 class CoreTabs(TabbedContent):
+  BORDER_TITLE = "CoreTabs"
+
   async def on_mount(self) -> None:
     await self.add_pane(AttributesTab())
     await self.add_pane(SkillsTab())
