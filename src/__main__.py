@@ -2,9 +2,8 @@ from asyncio import set_event_loop
 from sys import platform
 
 import debugpy
-from environment_init_vars import SETTINGS
+from environment_init_vars import MAIN_LOCATION, SETTINGS
 from textual.app import App, ComposeResult
-from textual.widgets import Header
 from UI import DrekkerBaseViewport
 
 if platform in ("win32", "cygwin", "cli"):
@@ -33,7 +32,6 @@ class DrekkerApp(App[None]):
 
   def compose(self) -> ComposeResult:
     """Compose the main application layout."""
-    # yield Header(show_clock=True)
     yield DrekkerBaseViewport()
 
 
