@@ -1,0 +1,71 @@
+# Unmodified Container Subclass
+# Yields DrekkerCore
+DrekkerBaseViewport {
+  width: auto;
+  height: auto;
+  layout: vertical;
+  border: solid #6200ff;
+}
+
+# Unmodified Container Subclass
+# Yields CoreTabs
+DrekkerCore {
+  border: solid #e600ff;
+}
+
+# Unmodified TabbedContent Subclass
+# Mounts a bunch of tabs on_mount
+CoreTabs {
+  border: solid #ff00aa;
+}
+
+# TabPane subclass
+# Is a base class for all of my Tab Panes
+CoreTabContainerBase {
+  width: auto;
+  height: 1fr;
+  layout: horizontal;
+  overflow: scroll scroll;
+  border: solid #ff0000;
+}
+
+# Grid subclass
+AttrTable {
+  width: auto;
+  height: auto;
+  grid-size: 4 14;
+  grid-gutter: 0 1;
+  grid-columns: auto;
+  grid-rows: 3;
+  border: solid #0000ff;
+}
+
+# AttrTable Buttons
+.attr-button {
+  max-width: 5;
+  max-height: 5;
+  border: solid #00ff9f;
+}
+
+# VerticalGroup
+.vert1 {
+  border: solid #ff6f00;
+  height: auto;
+}
+
+# HorizontalGroup
+.horz2 {
+  border: solid #f6ff00;
+}
+
+# VerticalGroup
+.vert3 {
+  border: solid #00ff6f;
+}
+
+# Container
+.placeholder {
+  width: 20;
+  height: 10;
+  border: solid #ffffff;
+}
