@@ -20,7 +20,10 @@ listening_for_debugger = False if SETTINGS.debug_wait_for_client else None
 class DrekkerApp(App[None]):
   """Main Shadowrun 6E character sheet application."""
 
-  CSS_PATH = "drekker.tcss"
+  CSS_PATH = [
+    # MAIN_LOCATION / "drekker.tcss",
+    MAIN_LOCATION / "UI" / "core" / "core_tabs.tcss",
+  ]
 
   def __init__(self) -> None:
     global listening_for_debugger
