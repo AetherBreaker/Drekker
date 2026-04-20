@@ -9,6 +9,7 @@ from textual.app import ComposeResult
 from textual.containers import Container, HorizontalGroup, VerticalGroup
 from textual.widget import Widget
 from textual.widgets import Button, Label
+
 from ui.core.core_base import CoreTabContainerBase
 
 
@@ -35,46 +36,42 @@ class AttributesTab(CoreTabContainerBase):
       vert1.border_title = "vert1"
       with HorizontalGroup(classes="test horz2") as horz2:
         horz2.border_title = "horz2"
-        with Container(
-          id="basic-data-container", classes="test placeholder"
-        ) as placeholder:
+        with Container(id="basic-data-container", classes="test placeholder") as placeholder:
           placeholder.border_title = "placeholder"
-        with Container(
-          id="appearance-container", classes="test placeholder"
-        ) as placeholder:
+        with Container(id="appearance-container", classes="test placeholder") as placeholder:
           placeholder.border_title = "placeholder"
       with HorizontalGroup(classes="test horz2") as horz2:
         horz2.border_title = "horz2"
         with VerticalGroup(classes="test vert3") as vert3:
           vert3.border_title = "vert3"
-          yield AttrTable(
-            "Body",
-            "Agility",
-            "Reaction",
-            "Strength",
-            "Willpower",
-            "Logic",
-            "Intuition",
-            "Charisma",
-            "Edge",
-            "Magic",
-            "Resonance",
-          )
+          vert3.styles.overflow_y = "scroll"
+          vert3.styles.overflow_x = "scroll"
+          with HorizontalGroup(classes="test horz3") as horz3:
+            horz3.border_title = "horz3"
+            yield AttrTable(
+              "Body",
+              "Agility",
+              "Reaction",
+              "Strength",
+              "Willpower",
+              "Logic",
+              "Intuition",
+              "Charisma",
+              "Edge",
+              "Magic",
+              "Resonance",
+            )
+            with Container(id="qualities-container", classes="test placeholder") as placeholder:
+              placeholder.border_title = "placeholder"
         with VerticalGroup(classes="test vert3") as vert3:
           vert3.border_title = "vert3"
-          with Container(
-            id="qualities-container", classes="test placeholder"
-          ) as placeholder:
+          with Container(id="qualities-container", classes="test placeholder") as placeholder:
             placeholder.border_title = "placeholder"
         with VerticalGroup(classes="test vert3") as vert3:
           vert3.border_title = "vert3"
-          with Container(
-            id="quality-paths-container", classes="test placeholder"
-          ) as placeholder:
+          with Container(id="quality-paths-container", classes="test placeholder") as placeholder:
             placeholder.border_title = "placeholder"
-          with Container(
-            id="critter-powers-container", classes="test placeholder"
-          ) as placeholder:
+          with Container(id="critter-powers-container", classes="test placeholder") as placeholder:
             placeholder.border_title = "placeholder"
 
 
@@ -159,9 +156,7 @@ class AttrTable(HorizontalGroup):
     for attr_id, attr in self.attributes.items():
       attr_labels.append(self.AttrLabel(attr["display_name"], id=f"{attr_id}-label"))
       attr_incs.append(self.AttrButton("+", id=f"{attr_id}-increment"))
-      attr_values.append(
-        self.AttrValue(f"{attr['value']}", id=f"{attr_id}-value", expand=True)
-      )
+      attr_values.append(self.AttrValue(f"{attr['value']}", id=f"{attr_id}-value", expand=True))
       attr_decs.append(self.AttrButton("-", id=f"{attr_id}-decrement"))
     with self.AttrLabelColumn():
       yield from attr_labels
