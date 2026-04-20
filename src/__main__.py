@@ -8,7 +8,7 @@ from sys import platform
 
 import debugpy
 from environment_init_vars import MAIN_LOCATION, SETTINGS
-from textual.app import App, ComposeResult
+from textual.app import App
 from ui.core import DrekkerCore
 
 if platform in ("win32", "cygwin", "cli"):
@@ -25,8 +25,12 @@ listening_for_debugger = False if SETTINGS.debug_wait_for_client else None
 class DrekkerApp(App[None]):
   """Main Shadowrun 6E character sheet application."""
 
+  DEFAULT_MODE = "Sheet"
+  MODES = {
+    "Sheet": DrekkerCore,
+  }
   CSS_PATH = [
-    # MAIN_LOCATION / "drekker.tcss",
+    MAIN_LOCATION / "drekker.tcss",
     MAIN_LOCATION / "ui" / "core" / "core_tabs.tcss",
   ]
 
@@ -37,23 +41,6 @@ class DrekkerApp(App[None]):
       debugpy.connect(("127.0.0.1", 5678))
       debugpy.wait_for_client()
     super().__init__()
-
-  def compose(self) -> ComposeResult:
-    """Compose the main application layout."""
-    # yield AttrTable(
-    #   "Body",
-    #   "Agility",
-    #   "Reaction",6
-    #   "Strength",
-    #   "Willpower",
-    #   "Logic",
-    #   "Intuition",
-    #   "Charisma",
-    #   "Edge",
-    #   "Magic",
-    #   "Resonance",
-    # )
-    yield DrekkerCore()
 
 
 def startup() -> None:

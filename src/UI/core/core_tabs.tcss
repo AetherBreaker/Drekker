@@ -1,17 +1,8 @@
 # Unmodified Container Subclass
-# Yields DrekkerCore
-DrekkerBaseViewport {
-  width: auto;
-  height: auto;
-  layout: vertical;
-  border: solid #6200ff;
-}
-
-# Unmodified Container Subclass
 # Yields CoreTabs
-DrekkerCore {
-  border: solid #e600ff;
-}
+# DrekkerCore {
+#   border: solid #ea00ff;
+# }
 
 # Unmodified TabbedContent Subclass
 # Mounts a bunch of tabs on_mount

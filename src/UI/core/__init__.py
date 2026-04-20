@@ -5,7 +5,7 @@ if __name__ == "__main__":
 
 from textual.app import ComposeResult
 from textual.screen import Screen
-from textual.widgets import TabbedContent
+from textual.widgets import Footer, Header, TabbedContent
 
 from ui.core.tab_attributes import AttributesTab
 from ui.core.tab_augmentations import AugmentationsTab
@@ -26,7 +26,9 @@ class DrekkerCore(Screen):
   BORDER_TITLE = "DrekkerCore"
 
   def compose(self) -> ComposeResult:
+    yield Header()
     yield CoreTabs()
+    yield Footer()
 
 
 class CoreTabs(TabbedContent):
