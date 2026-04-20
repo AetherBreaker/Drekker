@@ -51,9 +51,9 @@
                 "echo": false,
                 "reveal": "never",
                 "focus": false,
-                "panel": "dedicated",
                 "showReuseMessage": false,
-                "clear": true
+                "clear": true,
+                "close": true
             },
             "isBackground": true
         },
@@ -79,9 +79,9 @@
                 "echo": false,
                 "reveal": "never",
                 "focus": false,
-                "panel": "dedicated",
                 "showReuseMessage": false,
-                "clear": true
+                "clear": true,
+                "close": true
             }
         }
     ]
