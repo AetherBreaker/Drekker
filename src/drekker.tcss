@@ -1,47 +1,24 @@
 /* ═══════════════════════════════════════════════════════════
-   GLOBAL / SCREEN
+    GLOBAL / SCREEN
 ═══════════════════════════════════════════════════════════ */
-
-Screen {
-    background: #111111;
-}
-
-
-/* ═══════════════════════════════════════════════════════════
-   VIEWPORT CONTAINER  (DrekkerBaseViewport)
-═══════════════════════════════════════════════════════════ */
-
-DrekkerBaseViewport {
-    width: 100%;
-    height: 100%;
-    background: #111111;
-}
 
 DrekkerCore {
-    width: 100%;
-    height: 100%;
-}
-
-DrekkerCore > TabbedContent {
-    width: 100%;
-    height: 100%;
+    background: #111111;
 }
 
 
 /* ═══════════════════════════════════════════════════════════
-   TABBED CONTENT WRAPPER  (CoreTabContainerBase)
+    TABBED CONTENT WRAPPER  (CoreTabContainerBase)
 ═══════════════════════════════════════════════════════════ */
 
 CoreTabContainerBase {
-    width: 100%;
-    height: 100%;
     border: tall #00ff9f;
     border-top: none;
 }
 
 
 /* ═══════════════════════════════════════════════════════════
-   TAB BAR STRIP  (Tabs widget inside CoreTabContainerBase)
+    TAB BAR STRIP  (Tabs widget inside CoreTabContainerBase)
 ═══════════════════════════════════════════════════════════ */
 
 DrekkerCore > TabbedContent > Tabs {
@@ -52,7 +29,7 @@ DrekkerCore > TabbedContent > Tabs {
 
 
 /* ═══════════════════════════════════════════════════════════
-   INDIVIDUAL TAB BUTTONS
+    INDIVIDUAL TAB BUTTONS
 ═══════════════════════════════════════════════════════════ */
 
 Tab {
@@ -102,7 +79,7 @@ DrekkerCore > TabbedContent > Tabs:ansi Tab.-active {
 
 
 /* ═══════════════════════════════════════════════════════════
-   CONTENT SWITCHER & TAB PANES
+    CONTENT SWITCHER & TAB PANES
 ═══════════════════════════════════════════════════════════ */
 
 ContentSwitcher {

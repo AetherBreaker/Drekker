@@ -19,7 +19,8 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "isBackground": true
+            "isBackground": true,
+            "problemMatcher": []
         },
         {
             "label": "Launch Textual in Dev Mode",
@@ -55,7 +56,8 @@
                 "clear": true,
                 "close": true
             },
-            "isBackground": true
+            "isBackground": true,
+            "problemMatcher": []
         },
         {
             "label": "Textual Debug: Launch All",
@@ -74,7 +76,6 @@
                 "-Command",
                 "Get-Process -Name WindowsTerminal -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 300"
             ],
-            "problemMatcher": [],
             "presentation": {
                 "echo": false,
                 "reveal": "never",
@@ -82,6 +83,9 @@
                 "showReuseMessage": false,
                 "clear": true,
                 "close": true
+            },
+            "runOptions": {
+                "reevaluateOnRerun": false
             }
         }
     ]
