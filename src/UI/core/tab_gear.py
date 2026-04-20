@@ -1,10 +1,13 @@
-"""Gear tab for character sheet."""
+if __name__ == "__main__":
+  from logging_config import configure_logging
+
+  configure_logging()
 
 from textual.app import ComposeResult
 from textual.widgets import Static
 
-from UI.core.core_base import CoreTabContainerBase
-from UI.core.tab_attributes import Widget
+from ui.core.core_base import CoreTabContainerBase
+from ui.core.tab_attributes import Widget
 
 
 class GearTab(CoreTabContainerBase):

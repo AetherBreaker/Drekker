@@ -1,20 +1,23 @@
-"""Core UI module containing reusable tab wrapper class."""
+if __name__ == "__main__":
+  from logging_config import configure_logging
+
+  configure_logging()
 
 from textual.app import ComposeResult
-from textual.containers import Container
+from textual.screen import Screen
 from textual.widgets import TabbedContent
 
-from UI.core.tab_attributes import AttributesTab
-from UI.core.tab_augmentations import AugmentationsTab
-from UI.core.tab_gear import GearTab
-from UI.core.tab_magic_resonance import MagicResonanceTab
-from UI.core.tab_matrix import MatrixTab
-from UI.core.tab_misc import MiscTab
-from UI.core.tab_skills import SkillsTab
-from UI.core.tab_vehicles import VehiclesTab
+from ui.core.tab_attributes import AttributesTab
+from ui.core.tab_augmentations import AugmentationsTab
+from ui.core.tab_gear import GearTab
+from ui.core.tab_magic_resonance import MagicResonanceTab
+from ui.core.tab_matrix import MatrixTab
+from ui.core.tab_misc import MiscTab
+from ui.core.tab_skills import SkillsTab
+from ui.core.tab_vehicles import VehiclesTab
 
 
-class DrekkerCore(Container):
+class DrekkerCore(Screen):
   """Base container for all core character sheet tabs.
   This is where we can add any shared functionality or styling for all tabs in the character
   sheet. For now, it's just a placeholder, but it allows us to easily add common features to

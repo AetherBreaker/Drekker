@@ -1,10 +1,15 @@
+if __name__ == "__main__":
+  from logging_config import configure_logging
+
+  configure_logging()
+
 from asyncio import set_event_loop
 from sys import platform
 
 import debugpy
 from environment_init_vars import MAIN_LOCATION, SETTINGS
 from textual.app import App, ComposeResult
-from UI import DrekkerBaseViewport
+from ui.core import DrekkerCore
 
 if platform in ("win32", "cygwin", "cli"):
   from winloop import new_event_loop
@@ -22,7 +27,7 @@ class DrekkerApp(App[None]):
 
   CSS_PATH = [
     # MAIN_LOCATION / "drekker.tcss",
-    MAIN_LOCATION / "UI" / "core" / "core_tabs.tcss",
+    MAIN_LOCATION / "ui" / "core" / "core_tabs.tcss",
   ]
 
   def __init__(self) -> None:
@@ -35,7 +40,20 @@ class DrekkerApp(App[None]):
 
   def compose(self) -> ComposeResult:
     """Compose the main application layout."""
-    yield DrekkerBaseViewport()
+    # yield AttrTable(
+    #   "Body",
+    #   "Agility",
+    #   "Reaction",6
+    #   "Strength",
+    #   "Willpower",
+    #   "Logic",
+    #   "Intuition",
+    #   "Charisma",
+    #   "Edge",
+    #   "Magic",
+    #   "Resonance",
+    # )
+    yield DrekkerCore()
 
 
 def startup() -> None:

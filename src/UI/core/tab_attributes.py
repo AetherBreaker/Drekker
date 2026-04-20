@@ -1,13 +1,15 @@
-"""Attributes tab for character sheet."""
+if __name__ == "__main__":
+  from logging_config import configure_logging
+
+  configure_logging()
 
 from re import sub
 
 from textual.app import ComposeResult
-from textual.containers import Container, Grid, HorizontalGroup, Middle, VerticalGroup
+from textual.containers import Container, HorizontalGroup, VerticalGroup
 from textual.widget import Widget
 from textual.widgets import Button, Label
-
-from UI.core.core_base import CoreTabContainerBase
+from ui.core.core_base import CoreTabContainerBase
 
 
 class AttributesTab(CoreTabContainerBase):
@@ -28,7 +30,7 @@ class AttributesTab(CoreTabContainerBase):
       disabled=disabled,
     )
 
-  def compose(self) -> ComposeResult:
+  def compose(self) -> ComposeResult:  # sourcery skip: extract-duplicate-method
     with VerticalGroup(classes="test vert1") as vert1:
       vert1.border_title = "vert1"
       with HorizontalGroup(classes="test horz2") as horz2:
@@ -76,7 +78,7 @@ class AttributesTab(CoreTabContainerBase):
             placeholder.border_title = "placeholder"
 
 
-class AttrTable(Grid):
+class AttrTable(HorizontalGroup):
   """Table for displaying attributes and their values."""
 
   BORDER_TITLE = "AttrTable"
@@ -91,34 +93,101 @@ class AttrTable(Grid):
   ):
     super().__init__(name=name, id=id, classes=classes, disabled=disabled)
 
-    self.attributes = [
-      {
+    self.attributes = {
+      sub(" +", "-", attr.lower()): {
         "display_name": attr.title(),
-        "id": sub(" +", "-", attr.lower()),
         "value": 0,
       }
       for attr in attributes
-    ]
-    # self.styles.grid_size_rows = len(self.attributes)
-    # self.styles.grid_size_columns = 4
+    }
+
+  class AttrColumn(VerticalGroup):
+    DEFAULT_CLASSES = "attr-col"
+    DEFAULT_CSS = """
+    AttrColumn {
+      width: auto;
+    }
+    """
+
+  class AttrLabelColumn(AttrColumn):
+    DEFAULT_CSS = """
+    AttrLabelColumn {
+      align: left middle;
+    }
+    """
+
+  class AttrValueColumn(AttrColumn):
+    DEFAULT_CSS = """
+    AttrValueColumn {
+      align-horizontal: right;
+    }
+    """
+
+  class AttrLabel(Label):
+    DEFAULT_CLASSES = "attr-label"
+    DEFAULT_CSS = """
+    AttrLabel {
+      padding: 1 1;
+    }
+    """
+
+  class AttrButton(Button):
+    DEFAULT_CLASSES = "attr-button"
+    DEFAULT_CSS = """
+    AttrButton {
+      max-width: 5;
+      max-height: 3;
+      border: solid;
+    }
+    """
+
+  class AttrValue(Label):
+    DEFAULT_CLASSES = "attr-value"
+    DEFAULT_CSS = """
+    AttrValue {
+      padding: 1;
+      content-align-horizontal: right;
+      # border: solid;
+    }
+    """
 
   def compose(self) -> ComposeResult:
-    for attr in self.attributes:
-      with Middle():
-        yield Label(
-          attr["display_name"],
-          expand=False,
-          shrink=False,
-          id=f"{attr['id']}-label",
-          classes="attr-label attr-row",
-        )
-      yield Button(
-        "+", id=f"{attr['id']}-increment", classes="attr-inc attr-row attr-button"
+    attr_labels = []
+    attr_incs = []
+    attr_values = []
+    attr_decs = []
+    for attr_id, attr in self.attributes.items():
+      attr_labels.append(self.AttrLabel(attr["display_name"], id=f"{attr_id}-label"))
+      attr_incs.append(self.AttrButton("+", id=f"{attr_id}-increment"))
+      attr_values.append(
+        self.AttrValue(f"{attr['value']}", id=f"{attr_id}-value", expand=True)
       )
-      with Middle():
-        yield Label(
-          f"{attr['value']}", id=f"{attr['id']}-value", classes="attr-value attr-row"
-        )
-      yield Button(
-        "-", id=f"{attr['id']}-decrement", classes="attr-dec attr-row attr-button"
-      )
+      attr_decs.append(self.AttrButton("-", id=f"{attr_id}-decrement"))
+    with self.AttrLabelColumn():
+      yield from attr_labels
+    with self.AttrColumn():
+      yield from attr_incs
+    with self.AttrValueColumn():
+      yield from attr_values
+    with self.AttrColumn():
+      yield from attr_decs
+
+  # async def on_mount(self) -> None:
+  #   self.styles.height = self.arrange(Size(23, 0)).total_region.height + 2
+
+  async def on_button_pressed(self, event: Button.Pressed) -> None:
+    button_id = event.button.id
+    if button_id is None:
+      return
+
+    attr_id, action = button_id.split("-")
+
+    attr_dat = self.attributes.get(attr_id)
+
+    value = 1 if action == "increment" else -1
+
+    if attr_dat is None:
+      return
+
+    self.query_one(f"#{attr_id}-value", Label).update(f"{attr_dat['value'] + value}")
+    attr_dat["value"] += value

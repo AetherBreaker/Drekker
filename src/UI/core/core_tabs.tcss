@@ -29,22 +29,13 @@ CoreTabContainerBase {
   border: solid #ff0000;
 }
 
-# Grid subclass
 AttrTable {
   width: auto;
   height: auto;
-  grid-size: 4 14;
-  grid-gutter: 0 1;
-  grid-columns: auto;
-  grid-rows: 3;
   border: solid #0000ff;
 }
-
-# AttrTable Buttons
-.attr-button {
-  max-width: 5;
-  max-height: 5;
-  border: solid #00ff9f;
+AttrButton {
+  border: solid;
 }
 
 # VerticalGroup
