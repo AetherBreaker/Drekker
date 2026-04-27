@@ -28,11 +28,11 @@
             "request": "launch",
             "script": "ping",
             "preLaunchTask": "Textual Debug: Launch All",
-            "internalConsoleOptions": "neverOpen"
-            // "postDebugTask": "Close Windows Terminal Windows"
-            // "presentation": {
-            //     "hidden": true
-            // }
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Close Windows Terminal Windows",
+            "presentation": {
+                "hidden": true
+            }
         }
     ],
     "compounds": [
