@@ -2,7 +2,7 @@ from logging import getLogger
 from pathlib import Path
 from sys import modules
 
-from environment_settings import Settings
+from settings import Settings
 
 logger = getLogger(__name__)
 
