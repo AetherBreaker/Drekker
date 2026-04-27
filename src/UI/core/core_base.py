@@ -34,6 +34,4 @@ class CoreTabContainerBase(TabPane):
     classes: str | None = None,
     disabled: bool = False,
   ):
-    super().__init__(
-      title, *children, name=name, id=id, classes=classes, disabled=disabled
-    )
+    super().__init__(title, *children, name=name, id=id, classes=classes, disabled=disabled)
