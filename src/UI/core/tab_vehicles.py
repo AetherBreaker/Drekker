@@ -1,8 +1,3 @@
-if __name__ == "__main__":
-  from logging_config import configure_logging
-
-  configure_logging()
-
 from textual.app import ComposeResult
 from textual.widget import Widget
 from textual.widgets import Static

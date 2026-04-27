@@ -1,8 +1,3 @@
-if __name__ == "__main__":
-  from logging_config import configure_logging
-
-  configure_logging()
-
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Footer, Header, TabbedContent

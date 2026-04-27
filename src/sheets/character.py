@@ -1,8 +1,3 @@
-if __name__ == "__main__":
-  from logging_config import configure_logging
-
-  configure_logging()
-
 from collections.abc import Callable
 from decimal import Decimal
 from enum import StrEnum, auto
