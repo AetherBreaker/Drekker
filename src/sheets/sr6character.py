@@ -5,6 +5,7 @@ from logging import getLogger
 from typing import Annotated
 
 from pydantic import BaseModel, Field, RootModel
+
 from sheets import ConfiguredBaseModel
 
 logger = getLogger(__name__)
