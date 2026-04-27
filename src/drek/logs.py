@@ -9,6 +9,7 @@ from typing import Literal
 
 from rich.console import Console
 from rich.traceback import install
+from textual.logging import TextualHandler
 
 RICH_CONSOLE = Console()
 
@@ -119,9 +120,7 @@ class CustomTimedRotatingFileHandler(TimedRotatingFileHandler):
       if dstNow != dstThen:
         addend = 3600 if dstNow else -3600
         timeTuple = localtime(t + addend)
-    dfn = base_path.with_name(
-      self.rotation_filename(f"{base_path.stem}.{strftime(self.suffix, timeTuple)}{base_path.suffix}")
-    )
+    dfn = base_path.with_name(self.rotation_filename(f"{base_path.stem}.{strftime(self.suffix, timeTuple)}{base_path.suffix}"))
     if dfn.exists():
       # Already rolled over.
       return
@@ -177,6 +176,10 @@ def configure_logging():
   debugging_file_handler = debug_handler
   debugging_file_handler.setLevel(logging.DEBUG)
 
+  textual_console_handler = TextualHandler(stdout=True)
+  textual_console_handler.setLevel(logging.DEBUG)
+  textual_console_handler.setFormatter(FILE_FORMATTER)
+
   info_file_handler = info_handler
   info_file_handler.setLevel(logging.INFO)
 
@@ -195,6 +198,7 @@ def configure_logging():
   )
 
   root.addHandler(queue_handler)
+  root.addHandler(textual_console_handler)
 
   queue_listener.start()
 
