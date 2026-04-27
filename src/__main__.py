@@ -1,23 +1,7 @@
-if __name__ == "__main__":
-  from logging_config import configure_logging
-
-  configure_logging()
-
-from asyncio import set_event_loop
-from sys import platform
-
 import debugpy
-from environment_init_vars import MAIN_LOCATION, SETTINGS
+from drek.project_vars import MAIN_LOCATION, SETTINGS
 from textual.app import App
 from ui.core import DrekkerCore
-
-if platform in ("win32", "cygwin", "cli"):
-  from winloop import new_event_loop
-else:
-  from uvloop import new_event_loop  # type: ignore
-
-set_event_loop(new_event_loop())
-
 
 listening_for_debugger = False if SETTINGS.debug_wait_for_client else None
 

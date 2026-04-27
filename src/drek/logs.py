@@ -1,12 +1,7 @@
 import atexit
 import logging
 from datetime import datetime
-from logging.handlers import (
-  QueueHandler,
-  QueueListener,
-  RotatingFileHandler,
-  TimedRotatingFileHandler,
-)
+from logging.handlers import QueueHandler, QueueListener, RotatingFileHandler, TimedRotatingFileHandler
 from pathlib import Path
 from queue import Queue
 from time import gmtime, localtime, strftime, time
@@ -125,9 +120,7 @@ class CustomTimedRotatingFileHandler(TimedRotatingFileHandler):
         addend = 3600 if dstNow else -3600
         timeTuple = localtime(t + addend)
     dfn = base_path.with_name(
-      self.rotation_filename(
-        f"{base_path.stem}.{strftime(self.suffix, timeTuple)}{base_path.suffix}"
-      )
+      self.rotation_filename(f"{base_path.stem}.{strftime(self.suffix, timeTuple)}{base_path.suffix}")
     )
     if dfn.exists():
       # Already rolled over.
@@ -162,17 +155,13 @@ LOGGING_TYPE: Literal["daily", "per_run"] = "per_run"
 info_handler = (
   RotatingFileHandler(DEBUG_LOG_LOC, maxBytes=0, backupCount=30, delay=True)
   if LOGGING_TYPE == "per_run"
-  else CustomTimedRotatingFileHandler(
-    DEBUG_LOG_LOC, when="midnight", backupCount=14, delay=True
-  )
+  else CustomTimedRotatingFileHandler(DEBUG_LOG_LOC, when="midnight", backupCount=14, delay=True)
 )
 
 debug_handler = (
   RotatingFileHandler(INFO_LOG_LOC, maxBytes=0, backupCount=30, delay=True)
   if LOGGING_TYPE == "per_run"
-  else CustomTimedRotatingFileHandler(
-    INFO_LOG_LOC, when="midnight", backupCount=14, delay=True
-  )
+  else CustomTimedRotatingFileHandler(INFO_LOG_LOC, when="midnight", backupCount=14, delay=True)
 )
 
 if LOGGING_TYPE == "per_run":
