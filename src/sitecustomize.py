@@ -1,18 +1,21 @@
-from os import environ
+from typing import TYPE_CHECKING
 
-environ.setdefault("PYDANTIC_ERRORS_INCLUDE_URL", "false")
+if not TYPE_CHECKING:
+  from os import environ
 
-from drekker.logging import configure_logging  # noqa: E402
+  environ.setdefault("PYDANTIC_ERRORS_INCLUDE_URL", "false")
 
-configure_logging()
+  from drek.logs import configure_logging  # noqa: E402
 
-from sys import platform  # noqa: E402
+  configure_logging()
 
-if platform in ("win32", "cygwin", "cli"):
-  from winloop import new_event_loop
-else:
-  # if we're on apple or linux do this instead
-  from uvloop import new_event_loop  # type: ignore
-from asyncio import set_event_loop  # noqa: E402
+  from sys import platform  # noqa: E402
 
-set_event_loop(new_event_loop())
+  if platform in ("win32", "cygwin", "cli"):
+    from winloop import new_event_loop
+  else:
+    # if we're on apple or linux do this instead
+    from uvloop import new_event_loop  # type: ignore
+  from asyncio import set_event_loop  # noqa: E402
+
+  set_event_loop(new_event_loop())
