@@ -1,15 +1,15 @@
 from functools import cached_property
 
-from sheets.entry_types import EntryBase
+from sheets.entry_types import Costs, EntryBase
 
 
 class AttrEntryBase(EntryBase):
   @cached_property
-  def cost(self) -> int:
-    return self._count_attr_entries_until_self * 5
+  def costs(self) -> Costs:
+    return Costs(KARMA=self.rating * 5)
 
   @cached_property
-  def _count_attr_entries_until_self(self) -> int:
+  def rating(self) -> int:
     count = 0
     for entry in self._top.entry_stack:
       if entry is self:

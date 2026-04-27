@@ -1,7 +1,9 @@
+from abc import ABC, abstractmethod
 from collections.abc import Callable
 from decimal import Decimal
 from enum import StrEnum, auto
-from typing import TYPE_CHECKING, Annotated
+from functools import cached_property
+from typing import TYPE_CHECKING, Annotated, NamedTuple
 
 from pydantic import Field
 
@@ -47,13 +49,37 @@ class ModificationEntry(ConfiguredBaseModel):
 class EntryType(StrEnum):
   ATTRIBUTE = auto()
   SKILL = auto()
+  SKILL_LANGUAGE = auto()
+  SKILL_KNOWLEDGE = auto()
+  SKILL_SPECIALIZATION = auto()
+  SKILL_EXPERTISE = auto()
   QUALITY = auto()
   GEAR = auto()
-  ...
 
 
-class EntryBase[EntryTypeT: EntryType, NameT: str](ConfiguredBaseModel):
+class CostType(StrEnum):
+  KARMA = auto()
+  NUYEN = auto()
+  ESSENCE = auto()
+
+
+class Costs(NamedTuple):
+  KARMA: int = 0
+  NUYEN: int = 0
+  ESSENCE: Decimal = Decimal(0)
+
+
+class EntryBase[EntryTypeT: EntryType, NameT: str](ABC, ConfiguredBaseModel):
   type: EntryTypeT
   name: NameT
-  costs: Annotated[dict[str, int | Decimal], Field(default_factory=dict)]
   modifications: Annotated[tuple[ModificationEntry, ...], Field(default_factory=tuple)]
+
+  @cached_property
+  @abstractmethod
+  def costs(self) -> Costs:
+    raise NotImplementedError("Subclasses must implement costs property")
+
+  @cached_property
+  @abstractmethod
+  def rating(self) -> int | Decimal:
+    raise NotImplementedError("Subclasses must implement rating property")

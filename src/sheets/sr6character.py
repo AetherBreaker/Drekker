@@ -20,7 +20,7 @@ def _new_updated_dict[KeyT: StrEnum](keytype: type[KeyT]) -> Callable[[], dict[K
 
 
 def default_criteria(stack: "EntryStack") -> bool:
-  return any(stack._modifications_updated.values()) or any(stack._entries_updated.values())
+  return any(stack._mods_updated.values()) or any(stack._entries_updated.values())
 
 
 def cache_if[**TP, TR](
@@ -51,12 +51,8 @@ def cache_if[**TP, TR](
 class EntryStack(ConfiguredListModel[EntryBase]):
   """A wrapper around a list of EntryBase objects that represents the stack of entries on a character sheet."""
 
-  _modifications_updated: dict[ModTarget, bool] = Field(
-    default_factory=_new_updated_dict(ModTarget), exclude=True
-  )
-  _entries_updated: dict[EntryType, bool] = Field(
-    default_factory=_new_updated_dict(EntryType), exclude=True
-  )
+  _mods_updated: dict[ModTarget, bool] = Field(default_factory=_new_updated_dict(ModTarget), exclude=True)
+  _entries_updated: dict[EntryType, bool] = Field(default_factory=_new_updated_dict(EntryType), exclude=True)
 
 
 class SR6Character(ConfiguredBaseModel):
@@ -65,7 +61,7 @@ class SR6Character(ConfiguredBaseModel):
   def get_filtered_stack(self, criteria: type[EntryBase]) -> list[EntryBase]:
     return [entry for entry in self.entry_stack if isinstance(entry, criteria)]
 
-  @property  # TODO design caching system for this
+  @property
   @cache_if()
   def modification_stack(self) -> tuple[ModificationEntry, ...]:  # Read only
     return tuple(mod for entry in self.entry_stack for mod in entry.modifications)

@@ -1,5 +1,6 @@
 from typing import Literal
-from typing.enums import AttributeName
+
+from drek.typing.enums import AttributeName
 
 from sheets.entry_types import EntryType
 from sheets.entry_types.attrbase import AttrEntryBase
