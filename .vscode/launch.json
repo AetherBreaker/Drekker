@@ -9,7 +9,15 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src",
+                "PYTHONPYCACHEPREFIX": "${workspaceFolder}/PYCACHE",
+                "PYTHONUNBUFFERED": "1",
+                "TEXTUAL": "devtools"
+            },
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "Attach Debugger to Textual",
