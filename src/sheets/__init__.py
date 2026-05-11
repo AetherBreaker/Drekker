@@ -41,6 +41,11 @@ class ConfiguredBaseModel(BaseModel):
             if isinstance(item, ConfiguredBaseModel):
               item._top = self._top
               item._propogate_top()
+    self._post_init()
+
+  def _post_init(self) -> None:
+    """Called after the model is initialized. Can be used to set up any additional state or perform any additional validation."""
+    pass
 
 
 class ConfiguredRootModel[RootT](RootModel[RootT]):
@@ -52,6 +57,10 @@ class ConfiguredRootModel[RootT](RootModel[RootT]):
 
   def _propogate_top(self) -> None:
     raise NotImplementedError("Root models must implement their own _propogate_top method.")
+
+  def _post_init(self) -> None:
+    """Called after the model is initialized. Can be used to set up any additional state or perform any additional validation."""
+    pass
 
 
 class ConfiguredListModel[ContainedT](ConfiguredRootModel[list[ContainedT]]):
@@ -78,6 +87,7 @@ class ConfiguredListModel[ContainedT](ConfiguredRootModel[list[ContainedT]]):
             if isinstance(item, ConfiguredBaseModel):
               item._top = self._top
               item._propogate_top()
+    self._post_init()
 
   def __iter__(self) -> Generator[ContainedT, None, None]:  # type: ignore
     yield from self.root

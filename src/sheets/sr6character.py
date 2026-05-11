@@ -7,7 +7,7 @@ from typing import Annotated, Any, cast
 from pydantic import Field
 
 from sheets import ConfiguredBaseModel, ConfiguredListModel
-from sheets.entry_types import EntryBase, EntryType, ModificationEntry, ModTarget
+from sheets.entry_types import EntryBase, EntryType, ModificationEntry, ModTargetType
 
 logger = getLogger(__name__)
 
@@ -51,7 +51,7 @@ def cache_if[**TP, TR](
 class EntryStack(ConfiguredListModel[EntryBase]):
   """A wrapper around a list of EntryBase objects that represents the stack of entries on a character sheet."""
 
-  _mods_updated: dict[ModTarget, bool] = Field(default_factory=_new_updated_dict(ModTarget), exclude=True)
+  _mods_updated: dict[ModTargetType, bool] = Field(default_factory=_new_updated_dict(ModTargetType), exclude=True)
   _entries_updated: dict[EntryType, bool] = Field(default_factory=_new_updated_dict(EntryType), exclude=True)
 
 
@@ -70,3 +70,7 @@ class SR6Character(ConfiguredBaseModel):
     if self._top is None:
       self._top = self
       self._propogate_top()
+
+  def __hash__(self) -> int:
+    # serialize self to a json string and return it's hash
+    return hash(self.model_dump_json())

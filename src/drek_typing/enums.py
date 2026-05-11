@@ -10,7 +10,11 @@ class StrEnumBase(StrEnum):
     return name.title()
 
 
-class AttributeName(StrEnumBase):
+class CharacterValue(StrEnumBase):
+  """Base class for typing fields that accept a value of one of it's subclasses."""
+
+
+class AttributeName(CharacterValue):
   BODY = auto()
   AGILITY = auto()
   REACTION = auto()
@@ -21,7 +25,7 @@ class AttributeName(StrEnumBase):
   WILLPOWER = auto()
 
 
-class SkillName(StrEnumBase):
+class SkillName(CharacterValue):
   ASTRAL = auto()
   ATHLETICS = auto()
   BIOTECH = auto()

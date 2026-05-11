@@ -13,11 +13,8 @@ from sheets import ConfiguredBaseModel
 if TYPE_CHECKING:
   from sheets.sr6character import SR6Character
 
-type Complex = str
-type ComplexPrebuilt = Callable[["SR6Character"], int | Decimal]
 
-
-class ModTarget(StrEnum):
+class ModTargetType(StrEnum):
   ATTRIBUTE = auto()
   SKILL = auto()
   ESSENCE = auto()
@@ -25,26 +22,46 @@ class ModTarget(StrEnum):
   NUYEN = auto()
   REPUTATION = auto()
   HEAT = auto()
-  ...
 
 
 class ModType(StrEnum):
-  ADD = auto()
-  SUBTRACT = auto()
-  MULTIPLY = auto()
-  DIVIDE = auto()
-  FLOOR_DIVIDE = auto()
-  MODULO = auto()
-  COMPLEX_PREBUILT = auto()
-  COMPLEX = auto()  # TODO for custom formulas. Must be a simple python lambda that accepts an instance of SR6Character
-  # TODO and returns a number.
-  ...
+  NUMERIC = auto()
+
+  # Used for things that the sheet class will by default check for
+  ENABLE = auto()
+  DISABLE = auto()
+
+  # Used for things that want to toggle the existing state of a feature rather than
+  # override it
+  TOGGLE = auto()
 
 
-class ModificationEntry(ConfiguredBaseModel):
-  target: ModTarget
+ENABLE_SENTINEL = object()
+DISABLE_SENTINEL = object()
+TOGGLE_SENTINEL = object()
+
+type Sentinel = object
+
+
+class ModificationEntry[OpR_T: int | Decimal | bool | Sentinel](ConfiguredBaseModel):
+  target: CharacterValue
+  target_type: ModTargetType
   type: ModType
-  value: int | Decimal | Complex
+  op: Callable[["SR6Character"], OpR_T]
+
+  # Stored here to calculate a hash of the op inputs
+  _op_input_hash: int
+  _op_cached_result: OpR_T
+
+  @property
+  def value(self) -> OpR_T:
+    if self._op_input_hash != hash(self._top):
+      return self.op(self._top)
+    return self._op_cached_result
+
+  def _post_init(self) -> None:
+    # calculate the initial hash of the op input, which should always be self._top
+    self._op_input_hash = hash(self._top)
 
 
 class EntryType(StrEnum):
@@ -58,10 +75,10 @@ class EntryType(StrEnum):
   GEAR = auto()
 
 
-class CostType(StrEnum):
-  KARMA = auto()
-  NUYEN = auto()
-  ESSENCE = auto()
+# class CostType(StrEnum):
+#   KARMA = auto()
+#   NUYEN = auto()
+#   ESSENCE = auto()
 
 
 class Costs(NamedTuple):
