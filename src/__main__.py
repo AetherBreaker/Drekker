@@ -1,5 +1,5 @@
 import debugpy
-from drek.project_vars import MAIN_LOCATION, SETTINGS
+from project_vars import MAIN_LOCATION, SETTINGS
 from textual.app import App
 from ui.core import DrekkerCore
 

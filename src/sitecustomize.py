@@ -2,7 +2,7 @@ from os import environ
 
 environ.setdefault("PYDANTIC_ERRORS_INCLUDE_URL", "false")
 
-from drek.logs import configure_logging  # noqa: E402
+from drek_logging import configure_logging  # noqa: E402
 
 configure_logging()
 

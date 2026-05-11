@@ -5,6 +5,7 @@ from enum import StrEnum, auto
 from functools import cached_property
 from typing import TYPE_CHECKING, Annotated, NamedTuple
 
+from drek_typing.enums import CharacterValue
 from pydantic import Field
 
 from sheets import ConfiguredBaseModel
