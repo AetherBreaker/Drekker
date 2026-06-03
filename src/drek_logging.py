@@ -68,7 +68,6 @@ class FixedLogRecord(logging.LogRecord):
 
 class FixedFormatter(logging.Formatter):
   default_msec_format = None
-  converter = datetime.fromtimestamp  # type: ignore
 
   def formatTime(self, record, datefmt=None):
     """
@@ -88,11 +87,11 @@ class FixedFormatter(logging.Formatter):
     formatters, for example if you want all logging times to be shown in GMT,
     set the 'converter' attribute in the Formatter class.
     """
-    dt = self.converter(record.created)
+    dt: datetime = datetime.fromtimestamp(record.created)
     if datefmt:
-      s = dt.strftime(datefmt)  # type: ignore
+      s = dt.strftime(datefmt)
     else:
-      s = dt.strftime(self.default_time_format)  # type: ignore
+      s = dt.strftime(self.default_time_format)
       if self.default_msec_format:
         s = self.default_msec_format % (s, record.msecs)
     return s
@@ -120,7 +119,9 @@ class CustomTimedRotatingFileHandler(TimedRotatingFileHandler):
       if dstNow != dstThen:
         addend = 3600 if dstNow else -3600
         timeTuple = localtime(t + addend)
-    dfn = base_path.with_name(self.rotation_filename(f"{base_path.stem}.{strftime(self.suffix, timeTuple)}{base_path.suffix}"))
+    dfn = base_path.with_name(
+      self.rotation_filename(f"{base_path.stem}.{strftime(self.suffix, timeTuple)}{base_path.suffix}")
+    )
     if dfn.exists():
       # Already rolled over.
       return

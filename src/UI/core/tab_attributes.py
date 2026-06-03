@@ -19,7 +19,7 @@ class AttributesTab(CoreTabContainerBase):
     disabled: bool = False,
   ):
     super().__init__(
-      title="Attributes",
+      "Attributes",
       *children,
       name="attributes",
       id="attributes",

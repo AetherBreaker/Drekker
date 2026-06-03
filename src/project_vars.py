@@ -2,6 +2,7 @@ from logging import getLogger
 from pathlib import Path
 from sys import modules
 
+from pydantic import ConfigDict
 from settings import Settings
 
 logger = getLogger(__name__)
@@ -12,6 +13,13 @@ SETTINGS = Settings()  # type: ignore
 
 # Folder paths
 CWD = Path.cwd()
+PYDANTIC_CONFIG = ConfigDict(
+  populate_by_name=True,
+  use_enum_values=True,
+  validate_default=True,
+  validate_assignment=True,
+  coerce_numbers_to_str=True,
+)
 
 
 __main_loc = modules["__main__"].__file__

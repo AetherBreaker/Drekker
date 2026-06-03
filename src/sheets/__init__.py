@@ -1,18 +1,11 @@
 from collections.abc import Generator, Iterable, Mapping
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, ConfigDict, RootModel
+from project_vars import PYDANTIC_CONFIG
+from pydantic import BaseModel, RootModel
 
 if TYPE_CHECKING:
   from sheets.sr6character import SR6Character
-
-PYDANTIC_CONFIG = ConfigDict(
-  populate_by_name=True,
-  use_enum_values=True,
-  validate_default=True,
-  validate_assignment=True,
-  coerce_numbers_to_str=True,
-)
 
 
 class ConfiguredBaseModel(BaseModel):

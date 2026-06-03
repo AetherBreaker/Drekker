@@ -75,12 +75,6 @@ class EntryType(StrEnum):
   GEAR = auto()
 
 
-# class CostType(StrEnum):
-#   KARMA = auto()
-#   NUYEN = auto()
-#   ESSENCE = auto()
-
-
 class Costs(NamedTuple):
   KARMA: int = 0
   NUYEN: int = 0
