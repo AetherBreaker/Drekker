@@ -1,16 +1,16 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable
 from decimal import Decimal
 from enum import StrEnum, auto
 from functools import cached_property
 from typing import TYPE_CHECKING, Annotated, NamedTuple
 
-from drek_typing.enums import CharacterValue
 from pydantic import Field
 
 from sheets import ConfiguredBaseModel
 
 if TYPE_CHECKING:
+  from collections.abc import Callable
+  from drek_typing.enums import CharacterValue
   from sheets.sr6character import SR6Character
 
 
@@ -47,7 +47,7 @@ class ModificationEntry[OpR_T: int | Decimal | bool | Sentinel](ConfiguredBaseMo
   target: CharacterValue
   target_type: ModTargetType
   type: ModType
-  op: Callable[["SR6Character"], OpR_T]
+  op: Callable[[SR6Character], OpR_T]
 
   # Stored here to calculate a hash of the op inputs
   _op_input_hash: int

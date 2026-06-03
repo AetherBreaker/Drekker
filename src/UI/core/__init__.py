@@ -1,4 +1,3 @@
-from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Footer, Header, TabbedContent
 
@@ -10,6 +9,10 @@ from ui.core.tab_matrix import MatrixTab
 from ui.core.tab_misc import MiscTab
 from ui.core.tab_skills import SkillsTab
 from ui.core.tab_vehicles import VehiclesTab
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+  from textual.app import ComposeResult
 
 
 class DrekkerCore(Screen):

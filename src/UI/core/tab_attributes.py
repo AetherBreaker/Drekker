@@ -1,11 +1,14 @@
 from re import sub
 
-from textual.app import ComposeResult
 from textual.containers import Container, HorizontalGroup, VerticalGroup
-from textual.widget import Widget
 from textual.widgets import Button, Label
 
 from ui.core.core_base import CoreTabContainerBase
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+  from textual.widget import Widget
+  from textual.app import ComposeResult
 
 
 class AttributesTab(CoreTabContainerBase):
@@ -79,7 +82,7 @@ class AttrTable(HorizontalGroup):
     self,
     *attributes: str,
     name: str | None = None,
-    id: str | None = None,
+    id: str | None = None,  # noqa: A002
     classes: str | None = None,
     disabled: bool = False,
   ):

@@ -1,7 +1,11 @@
-from textual.binding import Binding
-from textual.content import ContentType
-from textual.widget import Widget
+from typing import ClassVar, TYPE_CHECKING
+
+from textual.binding import Binding, BindingType
 from textual.widgets import TabPane
+
+if TYPE_CHECKING:
+  from textual.widget import Widget
+  from textual.content import ContentType
 
 
 class CoreTabContainerBase(TabPane):
@@ -12,7 +16,7 @@ class CoreTabContainerBase(TabPane):
 
   BORDER_TITLE = "CoreTabContainerBase"
 
-  BINDINGS = [
+  BINDINGS: ClassVar[list[BindingType]] = [
     Binding("up", "scroll_up", "Scroll Up", show=False),
     Binding("down", "scroll_down", "Scroll Down", show=False),
     Binding("left", "scroll_left", "Scroll Left", show=False),
@@ -30,7 +34,7 @@ class CoreTabContainerBase(TabPane):
     title: ContentType,
     *children: Widget,
     name: str | None = None,
-    id: str | None = None,
+    id: str | None = None,  # noqa: A002
     classes: str | None = None,
     disabled: bool = False,
   ):

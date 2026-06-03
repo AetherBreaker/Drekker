@@ -1,8 +1,11 @@
-from textual.app import ComposeResult
-from textual.widget import Widget
 from textual.widgets import Static
 
 from ui.core.core_base import CoreTabContainerBase
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+  from textual.widget import Widget
+  from textual.app import ComposeResult
 
 
 class MiscTab(CoreTabContainerBase):
@@ -14,7 +17,7 @@ class MiscTab(CoreTabContainerBase):
     disabled: bool = False,
   ):
     super().__init__(
-      title="Miscellaneous",
+      "Miscellaneous",
       *children,
       name="miscellaneous",
       id="miscellaneous",

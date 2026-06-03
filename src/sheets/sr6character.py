@@ -1,30 +1,32 @@
-from collections.abc import Callable
 from enum import StrEnum
 from functools import wraps
 from logging import getLogger
-from typing import Annotated, Any, cast
+from typing import Annotated, Any, cast, TYPE_CHECKING
 
 from pydantic import Field
 
 from sheets import ConfiguredBaseModel, ConfiguredListModel
 from sheets.entry_types import EntryBase, EntryType, ModificationEntry, ModTargetType
 
+if TYPE_CHECKING:
+  from collections.abc import Callable
+
 logger = getLogger(__name__)
 
 
 def _new_updated_dict[KeyT: StrEnum](keytype: type[KeyT]) -> Callable[[], dict[KeyT, bool]]:
   def _new_dict() -> dict[KeyT, bool]:
-    return {key: False for key in keytype}
+    return dict.fromkeys(keytype, False)
 
   return _new_dict
 
 
-def default_criteria(stack: "EntryStack") -> bool:
+def default_criteria(stack: EntryStack) -> bool:
   return any(stack._mods_updated.values()) or any(stack._entries_updated.values())
 
 
 def cache_if[**TP, TR](
-  re_calc_criteria: Callable[["EntryStack"], bool] = default_criteria,
+  re_calc_criteria: Callable[[EntryStack], bool] = default_criteria,
 ) -> Callable[[Callable[TP, TR]], Callable[TP, TR]]:
   """A decorator that recalculates the functions return value if the re_calc_criteria function returns True
   Otherwise it returns the cached value for the given arguements."""
@@ -35,7 +37,7 @@ def cache_if[**TP, TR](
     @wraps(func)
     def _wrapper(*args: TP.args, **kwargs: TP.kwargs) -> TR:
       self = cast("SR6Character", args[0])
-      cache_key = args[1:] + (sep,) + tuple(sorted(kwargs.items()))
+      cache_key = (*args[1:], sep, *tuple(sorted(kwargs.items())))
       if cache_key not in cache or re_calc_criteria(self.entry_stack):
         result = func(*args, **kwargs)
         cache[cache_key] = result

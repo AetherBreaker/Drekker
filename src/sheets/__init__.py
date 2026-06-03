@@ -13,7 +13,7 @@ class ConfiguredBaseModel(BaseModel):
 
   model_config = PYDANTIC_CONFIG
 
-  _top: "SR6Character" = None  # type: ignore
+  _top: SR6Character = None  # type: ignore
 
   def _propogate_top(self) -> None:
     for _, field_value in self:
@@ -46,7 +46,7 @@ class ConfiguredRootModel[RootT](RootModel[RootT]):
 
   model_config = PYDANTIC_CONFIG
 
-  _top: "SR6Character" = None  # type: ignore
+  _top: SR6Character = None  # type: ignore
 
   def _propogate_top(self) -> None:
     raise NotImplementedError("Root models must implement their own _propogate_top method.")
@@ -82,13 +82,13 @@ class ConfiguredListModel[ContainedT](ConfiguredRootModel[list[ContainedT]]):
               item._propogate_top()
     self._post_init()
 
-  def __iter__(self) -> Generator[ContainedT, None, None]:  # type: ignore
+  def __iter__(self) -> Generator[ContainedT]:  # type: ignore
     yield from self.root
 
   def __getitem__(self, index: int) -> ContainedT:
     return self.root[index]
 
-  def __setitem__(self, key, value):
+  def __setitem__(self, key: int, value: ContainedT) -> None:
     self.root[key] = value
     if isinstance(value, (ConfiguredBaseModel, ConfiguredRootModel)):
       value._top = self._top
@@ -134,10 +134,10 @@ class ConfiguredListModel[ContainedT](ConfiguredRootModel[list[ContainedT]]):
   def pop(self, index: int = -1) -> ContainedT:
     return self.root.pop(index)
 
-  def __add__(self, other: Iterable[ContainedT]) -> "ConfiguredListModel[ContainedT]":
+  def __add__(self, other: Iterable[ContainedT]) -> ConfiguredListModel[ContainedT]:
     self.extend(other)
     return self
 
-  def __iadd__(self, other: Iterable[ContainedT]) -> "ConfiguredListModel[ContainedT]":
+  def __iadd__(self, other: Iterable[ContainedT]) -> ConfiguredListModel[ContainedT]:
     self.extend(other)
     return self

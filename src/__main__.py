@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from typing import ClassVar, TYPE_CHECKING
 
 from project_vars import MAIN_LOCATION, SETTINGS
@@ -6,6 +5,7 @@ from textual.app import App
 from ui.core import DrekkerCore
 
 if TYPE_CHECKING:
+  from collections.abc import Callable
   from textual.screen import Screen
   from textual._path import CSSPathType
 
@@ -27,22 +27,22 @@ class DrekkerApp(App[None]):
   def __init__(self) -> None:
     global listening_for_debugger
     if not listening_for_debugger and listening_for_debugger is not None:
-      import debugpy
+      import debugpy  # noqa: T100
 
       listening_for_debugger = True
       debugpy.connect(("127.0.0.1", 5678))
-      debugpy.wait_for_client()
+      debugpy.wait_for_client()  # noqa: T100
     super().__init__()
 
 
 def startup() -> None:
   global listening_for_debugger
   if not listening_for_debugger and listening_for_debugger is not None:
-    import debugpy
+    import debugpy  # noqa: T100
 
     listening_for_debugger = True
     debugpy.connect(("127.0.0.1", 5678))
-    debugpy.wait_for_client()
+    debugpy.wait_for_client()  # noqa: T100
 
   app = DrekkerApp()
   app.run()

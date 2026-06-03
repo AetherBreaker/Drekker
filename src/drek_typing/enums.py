@@ -3,7 +3,7 @@ from enum import StrEnum, auto
 
 class StrEnumBase(StrEnum):
   @staticmethod
-  def _generate_next_value_(name, start, count, last_values) -> str:
+  def _generate_next_value_(name: str, start: int, count: int, last_values: list[str]) -> str:
     """
     Return the title-cased version of the member name.
     """
