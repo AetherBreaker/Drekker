@@ -28,6 +28,7 @@
     "textual-transitions>=0.0.3",
     "textual-window>=0.7.0",
     "textual[syntax]>=8.1.1",
+    "typer>=0.26.7",
     "uvloop>=0.22.1 ; sys_platform == 'linux'",
     "winloop>=0.6.0 ; sys_platform == 'win32'",
   ]
@@ -36,6 +37,23 @@
   readme = "README.md"
   requires-python = ">=3.14"
   version = "0.1.1.dev1"
+
+  [project.scripts]
+    schemagen = "drekker.datapacks.models.serializer:generate_schemas"
+
+[dependency-groups]
+  dev = [
+    "debugpy>=1.8.21",
+    "pandas-stubs>=3.0.0.260204",
+    "types-python-dateutil>=2.9.0.20260323",
+  ]
+
+
+[build-system]
+  build-backend = "uv_build"
+  requires = [
+    "uv_build>=0.11.19,<0.12",
+  ]
 
 [tool.ruff]
   extend = "../pyproject.toml"
@@ -57,9 +75,3 @@
       "pydantic.BaseModel",
       "pydantic_settings.BaseSettings",
     ]
-[dependency-groups]
-  dev = [
-    "debugpy>=1.8.21",
-    "pandas-stubs>=3.0.0.260204",
-    "types-python-dateutil>=2.9.0.20260323",
-  ]

@@ -1,0 +1,276 @@
+{
+  "$defs": {
+    "Note": {
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/NoteTarget"
+        },
+        "content": {
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target",
+        "content"
+      ],
+      "title": "Note",
+      "type": "object"
+    },
+    "NoteTarget": {
+      "description": "Enumeration of possible target locations to send notes to in the UI.",
+      "enum": [
+        "PLACEHOLDER"
+      ],
+      "title": "NoteTarget",
+      "type": "string"
+    },
+    "Quality": {
+      "description": "Base model for quality datapacks.",
+      "properties": {
+        "rewards_edge": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RewardsEdge"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Note"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "source": {
+          "$ref": "#/$defs/Sources"
+        },
+        "page_number": {
+          "title": "Page Number",
+          "type": "integer"
+        },
+        "sub_options": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "$ref": "#/$defs/QualitySubOption"
+              },
+              "propertyNames": {
+                "$ref": "#/$defs/SubOptionLabel"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sub Options"
+        }
+      },
+      "required": [
+        "name",
+        "source",
+        "page_number"
+      ],
+      "title": "Quality",
+      "type": "object"
+    },
+    "QualitySubOption": {
+      "description": "Model for quality sub-options.",
+      "properties": {
+        "rewards_edge": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RewardsEdge"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Note"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sources"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "page_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page Number"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "QualitySubOption",
+      "type": "object"
+    },
+    "RewardsEdge": {
+      "properties": {
+        "rewards_on": {
+          "$ref": "#/$defs/Triggers"
+        },
+        "reward_amount": {
+          "default": 1,
+          "title": "Reward Amount",
+          "type": "integer"
+        },
+        "temporary": {
+          "default": false,
+          "title": "Temporary",
+          "type": "boolean"
+        },
+        "situational": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Situational"
+        },
+        "extra": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Extra"
+        }
+      },
+      "required": [
+        "rewards_on"
+      ],
+      "title": "RewardsEdge",
+      "type": "object"
+    },
+    "Sources": {
+      "description": "Enum for sources that can be used in the datapack.",
+      "enum": [
+        "Sixth World Companion",
+        "Core Rulebook (Any Edition)",
+        "Core Rulebook (Berlin Edition)",
+        "Core Rulebook (Hong Kong Edition)",
+        "Core Rulebook (Seattle Edition)",
+        "Hack'n Slash",
+        "No Future",
+        "Firing Squad"
+      ],
+      "title": "Sources",
+      "type": "string"
+    },
+    "SubOptionLabel": {
+      "type": "string"
+    },
+    "Triggers": {
+      "description": "Enum for triggers that can be used in the datapack.",
+      "enum": [
+        "ON_LOGIC_TEST",
+        "APPEARANCE"
+      ],
+      "title": "Triggers",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "qualities": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Quality"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Qualities"
+    }
+  },
+  "title": "DatapackSerializer",
+  "type": "object"
+}
