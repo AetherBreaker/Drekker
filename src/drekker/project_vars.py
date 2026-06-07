@@ -1,9 +1,13 @@
+# Standard library imports
 from logging import getLogger
 from pathlib import Path
 from sys import modules
 
+# Third party imports
 from pydantic import ConfigDict
-from settings import Settings
+
+# First party imports
+from drekker.settings import Settings
 
 logger = getLogger(__name__)
 

@@ -1,6 +1,8 @@
+# Standard library imports
 from functools import cached_property
 
-from sheets.entry_types import Costs, EntryBase
+# First party imports
+from drekker.sheets.entry_types import Costs, EntryBase
 
 
 class AttrEntryBase(EntryBase):

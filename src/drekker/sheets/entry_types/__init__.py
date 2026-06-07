@@ -1,17 +1,18 @@
+# Standard library imports
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from decimal import Decimal
 from enum import StrEnum, auto
 from functools import cached_property
-from typing import TYPE_CHECKING, Annotated, NamedTuple
+from typing import Annotated, NamedTuple
 
+# Third party imports
 from pydantic import Field
 
-from sheets import ConfiguredBaseModel
-
-if TYPE_CHECKING:
-  from collections.abc import Callable
-  from drek_typing.enums import CharacterValue
-  from sheets.sr6character import SR6Character
+# First party imports
+from drekker.sheets import ConfiguredBaseModel
+from drekker.sheets.sr6character import SR6Character
+from drekker.typing.enums import CharacterValue
 
 
 class ModTargetType(StrEnum):

@@ -1,17 +1,22 @@
+# Standard library imports
+from typing import TYPE_CHECKING
+
+# Third party imports
 from textual.screen import Screen
 from textual.widgets import Footer, Header, TabbedContent
 
-from ui.core.tab_attributes import AttributesTab
-from ui.core.tab_augmentations import AugmentationsTab
-from ui.core.tab_gear import GearTab
-from ui.core.tab_magic_resonance import MagicResonanceTab
-from ui.core.tab_matrix import MatrixTab
-from ui.core.tab_misc import MiscTab
-from ui.core.tab_skills import SkillsTab
-from ui.core.tab_vehicles import VehiclesTab
-from typing import TYPE_CHECKING
+# First party imports
+from drekker.ui.core.tab_attributes import AttributesTab
+from drekker.ui.core.tab_augmentations import AugmentationsTab
+from drekker.ui.core.tab_gear import GearTab
+from drekker.ui.core.tab_magic_resonance import MagicResonanceTab
+from drekker.ui.core.tab_matrix import MatrixTab
+from drekker.ui.core.tab_misc import MiscTab
+from drekker.ui.core.tab_skills import SkillsTab
+from drekker.ui.core.tab_vehicles import VehiclesTab
 
 if TYPE_CHECKING:
+  # Third party imports
   from textual.app import ComposeResult
 
 

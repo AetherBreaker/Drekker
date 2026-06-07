@@ -1,13 +1,20 @@
-from typing import ClassVar, TYPE_CHECKING
+# Standard library imports
+from typing import TYPE_CHECKING, ClassVar
 
-from project_vars import MAIN_LOCATION, SETTINGS
+# Third party imports
 from textual.app import App
-from ui.core import DrekkerCore
+
+# First party imports
+from drekker.project_vars import MAIN_LOCATION, SETTINGS
+from drekker.ui.core import DrekkerCore
 
 if TYPE_CHECKING:
+  # Standard library imports
   from collections.abc import Callable
-  from textual.screen import Screen
+
+  # Third party imports
   from textual._path import CSSPathType
+  from textual.screen import Screen
 
 listening_for_debugger = False if SETTINGS.debug_wait_for_client else None
 
@@ -27,6 +34,7 @@ class DrekkerApp(App[None]):
   def __init__(self) -> None:
     global listening_for_debugger
     if not listening_for_debugger and listening_for_debugger is not None:
+      # Third party imports
       import debugpy  # noqa: T100
 
       listening_for_debugger = True
@@ -38,6 +46,7 @@ class DrekkerApp(App[None]):
 def startup() -> None:
   global listening_for_debugger
   if not listening_for_debugger and listening_for_debugger is not None:
+    # Third party imports
     import debugpy  # noqa: T100
 
     listening_for_debugger = True

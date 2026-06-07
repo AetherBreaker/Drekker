@@ -1,11 +1,18 @@
-from textual.widgets import Static
-
-from ui.core.core_base import CoreTabContainerBase
+# Standard library imports
 from typing import TYPE_CHECKING
 
+# Third party imports
+from textual.widgets import Static
+
+# First party imports
+from drekker.ui.core.core_base import CoreTabContainerBase
+
 if TYPE_CHECKING:
-  from ui.core.tab_attributes import Widget
+  # Third party imports
   from textual.app import ComposeResult
+
+  # First party imports
+  from drekker.ui.core.tab_attributes import Widget
 
 
 class GearTab(CoreTabContainerBase):

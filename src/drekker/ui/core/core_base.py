@@ -1,11 +1,14 @@
-from typing import ClassVar, TYPE_CHECKING
+# Standard library imports
+from typing import TYPE_CHECKING, ClassVar
 
+# Third party imports
 from textual.binding import Binding, BindingType
 from textual.widgets import TabPane
 
 if TYPE_CHECKING:
-  from textual.widget import Widget
+  # Third party imports
   from textual.content import ContentType
+  from textual.widget import Widget
 
 
 class CoreTabContainerBase(TabPane):

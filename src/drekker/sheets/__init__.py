@@ -1,11 +1,12 @@
+# Standard library imports
 from collections.abc import Generator, Iterable, Mapping
-from typing import TYPE_CHECKING
 
-from project_vars import PYDANTIC_CONFIG
+# Third party imports
 from pydantic import BaseModel, RootModel
 
-if TYPE_CHECKING:
-  from sheets.sr6character import SR6Character
+# First party imports
+from drekker.project_vars import PYDANTIC_CONFIG
+from drekker.sheets.sr6character import SR6Character
 
 
 class ConfiguredBaseModel(BaseModel):

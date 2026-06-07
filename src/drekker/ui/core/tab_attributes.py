@@ -1,14 +1,18 @@
+# Standard library imports
 from re import sub
+from typing import TYPE_CHECKING
 
+# Third party imports
 from textual.containers import Container, HorizontalGroup, VerticalGroup
 from textual.widgets import Button, Label
 
-from ui.core.core_base import CoreTabContainerBase
-from typing import TYPE_CHECKING
+# First party imports
+from drekker.ui.core.core_base import CoreTabContainerBase
 
 if TYPE_CHECKING:
-  from textual.widget import Widget
+  # Third party imports
   from textual.app import ComposeResult
+  from textual.widget import Widget
 
 
 class AttributesTab(CoreTabContainerBase):

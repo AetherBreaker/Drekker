@@ -1,3 +1,4 @@
+# Standard library imports
 import atexit
 import logging
 from datetime import datetime
@@ -5,11 +6,16 @@ from logging.handlers import QueueHandler, QueueListener, RotatingFileHandler, T
 from pathlib import Path
 from queue import Queue
 from time import gmtime, localtime, strftime, time
-from typing import Literal
+from typing import TYPE_CHECKING
 
+# Third party imports
 from rich.console import Console
 from rich.traceback import install
 from textual.logging import TextualHandler
+
+if TYPE_CHECKING:
+  # Standard library imports
+  from typing import Literal
 
 RICH_CONSOLE = Console()
 

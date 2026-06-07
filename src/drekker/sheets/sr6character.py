@@ -1,15 +1,16 @@
+# Standard library imports
+from collections.abc import Callable  # noqa: TC003
 from enum import StrEnum
 from functools import wraps
 from logging import getLogger
-from typing import Annotated, Any, cast, TYPE_CHECKING
+from typing import Annotated, Any, cast
 
+# Third party imports
 from pydantic import Field
 
-from sheets import ConfiguredBaseModel, ConfiguredListModel
-from sheets.entry_types import EntryBase, EntryType, ModificationEntry, ModTargetType
-
-if TYPE_CHECKING:
-  from collections.abc import Callable
+# First party imports
+from drekker.sheets import ConfiguredBaseModel, ConfiguredListModel
+from drekker.sheets.entry_types import EntryBase, EntryType, ModificationEntry, ModTargetType
 
 logger = getLogger(__name__)
 

@@ -1,7 +1,9 @@
+# Standard library imports
 import os
 from logging import getLogger
 from pathlib import Path
 
+# Third party imports
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = getLogger(__name__)
