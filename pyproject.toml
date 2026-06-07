@@ -44,6 +44,19 @@
     "./src",
   ]
 
+  [tool.ruff.lint.flake8-type-checking]
+    # Keeps imports intact if they are used as types inside a Pydantic model
+    exempt-modules = [
+    ]
+    runtime-evaluated-base-classes = [
+      "drekker.datapacks.models.Datapack",
+      "drekker.datapacks.models._pieces.DatapackPiece",
+      "drekker.sheets.ConfiguredBaseModel",
+      "drekker.sheets.entry_types.EntryBase",
+      "drekker.sheets.entry_types.attrbase.AttrEntryBase",
+      "pydantic.BaseModel",
+      "pydantic_settings.BaseSettings",
+    ]
 [dependency-groups]
   dev = [
     "debugpy>=1.8.21",
