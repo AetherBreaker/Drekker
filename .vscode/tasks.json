@@ -43,7 +43,7 @@
             "options": {
                 "env": {
                     "PYTHONPATH": "${workspaceFolder}/src",
-                    "PYTHONPYCACHEPREFIX": "${workspaceFolder}/PYCACHE",
+                    "PYTHONPYCACHEPREFIX": "${workspaceFolder}/__pycache__",
                     "PYTHONUNBUFFERED": "1",
                     "TEXTUAL": "devtools"
                 }
@@ -64,6 +64,17 @@
             "dependsOn": ["Textual Console", "Launch Textual in Dev Mode"],
             "dependsOrder": "parallel",
             "isBackground": true
+        },
+        {
+            "label": "Install Drekker Extension",
+            "type": "shell",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ${workspaceFolder}/.vscode/drekker-extension/install.ps1",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
         },
         {
             "label": "Close Windows Terminal Windows",
