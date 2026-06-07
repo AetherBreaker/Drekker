@@ -1,3 +1,13 @@
+if __name__ == "__main__":
+  # First party imports
+  from drekker.initialize import initialize
+
+  PROJECT_NAME = "Drekker"
+  LOGGING_TYPE = "per_run"
+  MAX_WIDTH = 40
+
+  initialize()
+
 # Standard library imports
 from typing import TYPE_CHECKING, ClassVar
 
