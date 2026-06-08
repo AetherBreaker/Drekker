@@ -1,7 +1,6 @@
 # Standard library imports
 from json import dump
 from pathlib import Path
-from typing import Annotated
 
 # Third party imports
 import typer
@@ -15,7 +14,11 @@ from drekker.project_vars import PYDANTIC_CONFIG
 class DatapackSerializer(BaseModel):
   model_config = PYDANTIC_CONFIG
 
-  qualities: Annotated[list[Quality] | None, Field()] = None
+  qualities: list[Quality] | None = Field(
+    default=None,
+    description="""A list of qualities that the datapack has.
+    This can be used to determine which features to enable or disable when loading the datapack.""",
+  )
 
 
 DEFAULT_SCHEMA_OUTPUT_PATH = Path.cwd() / "datapack_schema.json"

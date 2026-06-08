@@ -3,7 +3,13 @@
     "Note": {
       "properties": {
         "target": {
-          "$ref": "#/$defs/NoteTarget"
+          "oneOf": [
+            {
+              "const": "APPEARANCE",
+              "description": "Sends note to the appearance section of the character sheet."
+            }
+          ],
+          "title": "Target"
         },
         "content": {
           "title": "Content",
@@ -17,16 +23,22 @@
       "title": "Note",
       "type": "object"
     },
-    "NoteTarget": {
-      "description": "Enumeration of possible target locations to send notes to in the UI.",
-      "enum": [
-        "PLACEHOLDER"
-      ],
-      "title": "NoteTarget",
-      "type": "string"
-    },
     "Quality": {
       "description": "Base model for quality datapacks.",
+      "else": {
+        "properties": {
+          "subcategory": {
+            "type": "null"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "category": {
+            "const": "SURGE"
+          }
+        }
+      },
       "properties": {
         "rewards_edge": {
           "anyOf": [
@@ -70,8 +82,144 @@
           "default": null,
           "title": "Description"
         },
+        "kind": {
+          "enum": [
+            "POSITIVE",
+            "NEGATIVE"
+          ],
+          "title": "QualityKind",
+          "type": "string"
+        },
+        "category": {
+          "oneOf": [
+            {
+              "const": "ADEPT_WAYS",
+              "description": "Street Wyrd"
+            },
+            {
+              "const": "CHARACTER_TRAITS",
+              "description": "Shadow Cast"
+            },
+            {
+              "const": "DRAKE",
+              "description": "Lofwyr's Legions"
+            },
+            {
+              "const": "HMHVV_INFECTED",
+              "description": "Companion"
+            },
+            {
+              "const": "LIFESTYLE"
+            },
+            {
+              "const": "MARTIAL_ART"
+            },
+            {
+              "const": "SURGE",
+              "description": "Companion"
+            },
+            {
+              "const": "REGULAR",
+              "description": "Regular Qualities"
+            },
+            {
+              "const": "SHIFTER",
+              "description": "Shifter Qualities"
+            },
+            {
+              "const": "STREAMS",
+              "description": "Technomancer Streams - Hack N Slash"
+            },
+            {
+              "const": "TRANSGENIC",
+              "description": "Body Shop"
+            },
+            {
+              "const": "VIRTUAL_LIFE",
+              "description": "AI/EI - Hack N Slash"
+            }
+          ],
+          "title": "Category"
+        },
+        "subcategory": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "const": "ANIMAL_PELAGE",
+                  "description": "Animal Pelage"
+                },
+                {
+                  "const": "BENEFICIAL_SECRETIONS",
+                  "description": "Beneficial Secretions"
+                },
+                {
+                  "const": "COMPLEX_TRAITS",
+                  "description": "Complex Traits"
+                },
+                {
+                  "const": "DERMAL_ALTERATION",
+                  "description": "Dermal Alterations"
+                },
+                {
+                  "const": "METAGENIC_SENSES",
+                  "description": "Metagenic Senses"
+                },
+                {
+                  "const": "METAGENIC_MORPHISMS",
+                  "description": "Metagenic Morphisms"
+                },
+                {
+                  "const": "AHD",
+                  "description": "Aural Helix Dysmorphia (AHD)"
+                },
+                {
+                  "const": "BIOLOGICAL_DYSMORPHIA",
+                  "description": "Biological Dysmorphia"
+                },
+                {
+                  "const": "METAGENIC_ANOMALIES",
+                  "description": "Metagenic Anomalies"
+                },
+                {
+                  "const": "METAGENIC_DEFECTS",
+                  "description": "Metagenic Defects"
+                },
+                {
+                  "const": "METAGENIC_THROWBACKS",
+                  "description": "Metagenic Throwbacks"
+                },
+                {
+                  "const": "NEUROPATHIC_ADJUSTED_STATES",
+                  "description": "Neuropathic Adjusted States (NAS)"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subcategory"
+        },
+        "karma": {
+          "title": "Karma",
+          "type": "integer"
+        },
         "source": {
-          "$ref": "#/$defs/Sources"
+          "description": "Enum for sources that can be used in the datapack.",
+          "enum": [
+            "Sixth World Companion",
+            "Core Rulebook (Any Edition)",
+            "Core Rulebook (Berlin Edition)",
+            "Core Rulebook (Hong Kong Edition)",
+            "Core Rulebook (Seattle Edition)",
+            "Hack'n Slash",
+            "No Future",
+            "Firing Squad"
+          ],
+          "title": "Sources",
+          "type": "string"
         },
         "page_number": {
           "title": "Page Number",
@@ -80,13 +228,10 @@
         "sub_options": {
           "anyOf": [
             {
-              "additionalProperties": {
+              "items": {
                 "$ref": "#/$defs/QualitySubOption"
               },
-              "propertyNames": {
-                "$ref": "#/$defs/SubOptionLabel"
-              },
-              "type": "object"
+              "type": "array"
             },
             {
               "type": "null"
@@ -98,9 +243,68 @@
       },
       "required": [
         "name",
+        "kind",
+        "category",
+        "karma",
         "source",
         "page_number"
       ],
+      "then": {
+        "properties": {
+          "subcategory": {
+            "oneOf": [
+              {
+                "const": "ANIMAL_PELAGE",
+                "description": "Animal Pelage"
+              },
+              {
+                "const": "BENEFICIAL_SECRETIONS",
+                "description": "Beneficial Secretions"
+              },
+              {
+                "const": "COMPLEX_TRAITS",
+                "description": "Complex Traits"
+              },
+              {
+                "const": "DERMAL_ALTERATION",
+                "description": "Dermal Alterations"
+              },
+              {
+                "const": "METAGENIC_SENSES",
+                "description": "Metagenic Senses"
+              },
+              {
+                "const": "METAGENIC_MORPHISMS",
+                "description": "Metagenic Morphisms"
+              },
+              {
+                "const": "AHD",
+                "description": "Aural Helix Dysmorphia (AHD)"
+              },
+              {
+                "const": "BIOLOGICAL_DYSMORPHIA",
+                "description": "Biological Dysmorphia"
+              },
+              {
+                "const": "METAGENIC_ANOMALIES",
+                "description": "Metagenic Anomalies"
+              },
+              {
+                "const": "METAGENIC_DEFECTS",
+                "description": "Metagenic Defects"
+              },
+              {
+                "const": "METAGENIC_THROWBACKS",
+                "description": "Metagenic Throwbacks"
+              },
+              {
+                "const": "NEUROPATHIC_ADJUSTED_STATES",
+                "description": "Neuropathic Adjusted States (NAS)"
+              }
+            ]
+          }
+        }
+      },
       "title": "Quality",
       "type": "object"
     },
@@ -152,13 +356,26 @@
         "source": {
           "anyOf": [
             {
-              "$ref": "#/$defs/Sources"
+              "description": "Enum for sources that can be used in the datapack.",
+              "enum": [
+                "Sixth World Companion",
+                "Core Rulebook (Any Edition)",
+                "Core Rulebook (Berlin Edition)",
+                "Core Rulebook (Hong Kong Edition)",
+                "Core Rulebook (Seattle Edition)",
+                "Hack'n Slash",
+                "No Future",
+                "Firing Squad"
+              ],
+              "title": "Sources",
+              "type": "string"
             },
             {
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "title": "Source"
         },
         "page_number": {
           "anyOf": [
@@ -182,7 +399,13 @@
     "RewardsEdge": {
       "properties": {
         "rewards_on": {
-          "$ref": "#/$defs/Triggers"
+          "oneOf": [
+            {
+              "const": "ON_LOGIC_TEST",
+              "description": "Actions linked to this trigger are performed when a logic test is made."
+            }
+          ],
+          "title": "Rewards On"
         },
         "reward_amount": {
           "default": 1,
@@ -225,33 +448,6 @@
       ],
       "title": "RewardsEdge",
       "type": "object"
-    },
-    "Sources": {
-      "description": "Enum for sources that can be used in the datapack.",
-      "enum": [
-        "Sixth World Companion",
-        "Core Rulebook (Any Edition)",
-        "Core Rulebook (Berlin Edition)",
-        "Core Rulebook (Hong Kong Edition)",
-        "Core Rulebook (Seattle Edition)",
-        "Hack'n Slash",
-        "No Future",
-        "Firing Squad"
-      ],
-      "title": "Sources",
-      "type": "string"
-    },
-    "SubOptionLabel": {
-      "type": "string"
-    },
-    "Triggers": {
-      "description": "Enum for triggers that can be used in the datapack.",
-      "enum": [
-        "ON_LOGIC_TEST",
-        "APPEARANCE"
-      ],
-      "title": "Triggers",
-      "type": "string"
     }
   },
   "properties": {
@@ -268,6 +464,7 @@
         }
       ],
       "default": null,
+      "description": "A list of qualities that the datapack has.\n    This can be used to determine which features to enable or disable when loading the datapack.",
       "title": "Qualities"
     }
   },
