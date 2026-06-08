@@ -10,9 +10,9 @@ from typing import Annotated, NamedTuple
 from pydantic import Field
 
 # First party imports
+from drekker.enumerated_constants.character_values import CharacterValue
 from drekker.sheets import ConfiguredBaseModel
 from drekker.sheets.sr6character import SR6Character
-from drekker.typing.enums import CharacterValue
 
 
 class ModTargetType(StrEnum):

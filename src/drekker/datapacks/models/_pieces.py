@@ -2,9 +2,9 @@
 from pydantic import BaseModel
 
 # First party imports
+from drekker.enumerated_constants.targets import NoteTarget
+from drekker.enumerated_constants.triggers import Triggers
 from drekker.project_vars import PYDANTIC_CONFIG
-from drekker.typing.targets_enum import NoteTarget
-from drekker.typing.triggers import Triggers
 
 
 class DatapackPiece(BaseModel):

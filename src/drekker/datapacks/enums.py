@@ -2,7 +2,7 @@
 from enum import auto
 
 # First party imports
-from drekker.typing.enums import StrEnumBase
+from drekker.typing import StrEnumBase
 
 
 class Sources(StrEnumBase):
