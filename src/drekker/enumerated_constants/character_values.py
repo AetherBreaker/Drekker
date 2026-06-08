@@ -1,11 +1,8 @@
 # Standard library imports
-from enum import StrEnum, auto
+from enum import auto
 
-
-class StrEnumBase(StrEnum):
-  @staticmethod
-  def _generate_next_value_(name: str, start: int, count: int, last_values: list[str]) -> str:
-    return name.upper()
+# First party imports
+from drekker.typing import StrEnumBase
 
 
 class CharacterValue(StrEnumBase):
