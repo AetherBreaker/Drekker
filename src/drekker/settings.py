@@ -17,11 +17,15 @@ CWD = Path(__file__).parent if getattr(sys, "frozen", False) else Path.cwd()
 
 
 class Settings(BaseSettings):
-  model_config = SettingsConfigDict(
-    env_file=Path.cwd() / ".env",
-    env_file_encoding="utf-8",
-    env_ignore_empty=True,
-    extra="ignore",
+  model_config = (
+    SettingsConfigDict(
+      env_file=Path.cwd() / ".env",
+      env_file_encoding="utf-8",
+      env_ignore_empty=True,
+      extra="ignore",
+    )
+    if __debug__
+    else SettingsConfigDict(extra="ignore")
   )
 
   debug_wait_for_client: bool = False
