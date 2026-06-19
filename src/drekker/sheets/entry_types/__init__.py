@@ -1,10 +1,10 @@
 # Standard library imports
-from abc import ABC, abstractmethod
+from abc import ABC
 from collections.abc import Callable
 from decimal import Decimal
 from enum import StrEnum, auto
 from functools import cached_property
-from typing import Annotated, NamedTuple
+from typing import TYPE_CHECKING, Annotated, NamedTuple, override
 
 # Third party imports
 from pydantic import Field
@@ -12,7 +12,10 @@ from pydantic import Field
 # First party imports
 from drekker.enumerated_constants.character_values import CharacterValue
 from drekker.sheets import ConfiguredBaseModel
-from drekker.sheets.sr6character import SR6Character
+
+if TYPE_CHECKING:
+  # First party imports
+  from drekker.sheets.sr6character import SR6Character
 
 
 class ModTargetType(StrEnum):
@@ -48,7 +51,7 @@ class ModificationEntry[OpR_T: int | Decimal | bool | Sentinel](ConfiguredBaseMo
   target: CharacterValue
   target_type: ModTargetType
   type: ModType
-  op: Callable[[SR6Character], OpR_T]
+  op: Callable[["SR6Character"], OpR_T]
 
   # Stored here to calculate a hash of the op inputs
   _op_input_hash: int
@@ -60,6 +63,7 @@ class ModificationEntry[OpR_T: int | Decimal | bool | Sentinel](ConfiguredBaseMo
       return self.op(self._top)
     return self._op_cached_result
 
+  @override
   def _post_init(self) -> None:
     # calculate the initial hash of the op input, which should always be self._top
     self._op_input_hash = hash(self._top)
@@ -88,11 +92,7 @@ class EntryBase[EntryTypeT: EntryType, NameT: str](ABC, ConfiguredBaseModel):
   modifications: Annotated[tuple[ModificationEntry, ...], Field(default_factory=tuple)]
 
   @cached_property
-  @abstractmethod
-  def costs(self) -> Costs:
-    raise NotImplementedError("Subclasses must implement costs property")
+  def costs(self) -> Costs: ...
 
   @cached_property
-  @abstractmethod
-  def rating(self) -> int | Decimal:
-    raise NotImplementedError("Subclasses must implement rating property")
+  def rating(self) -> int | Decimal: ...

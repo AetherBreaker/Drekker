@@ -19,7 +19,7 @@ def initialize(*queues: QueueCatchall):
 
   if platform in ("win32", "cygwin", "cli"):
     # Third party imports
-    from winloop import new_event_loop  # type: ignore
+    from winloop import new_event_loop
   else:
     # Third party imports
     from uvloop import new_event_loop  # type: ignore

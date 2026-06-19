@@ -1,5 +1,5 @@
 # Standard library imports
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 # Third party imports
 from textual.widgets import Static
@@ -29,5 +29,6 @@ class VehiclesTab(CoreTabContainerBase):
       disabled=disabled,
     )
 
+  @override
   def compose(self) -> ComposeResult:
     yield Static("[Vehicles — coming soon]")

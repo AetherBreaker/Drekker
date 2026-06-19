@@ -1,6 +1,6 @@
 # Standard library imports
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 # Third party imports
 from pydantic_core import core_schema as cs
@@ -22,6 +22,7 @@ class StrEnumBase(StrEnum):
     obj.description = description
     return obj
 
+  @override
   @staticmethod
   def _generate_next_value_(name: str, start: int, count: int, last_values: list[str]) -> str:
     return name.upper()

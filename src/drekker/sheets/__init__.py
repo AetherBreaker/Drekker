@@ -1,12 +1,17 @@
+# pyright: reportPrivateUsage=false
 # Standard library imports
 from collections.abc import Generator, Iterable, Mapping
+from typing import TYPE_CHECKING, override
 
 # Third party imports
 from pydantic import BaseModel, RootModel
 
 # First party imports
 from drekker.project_vars import PYDANTIC_CONFIG
-from drekker.sheets.sr6character import SR6Character
+
+if TYPE_CHECKING:
+  # First party imports
+  from drekker.sheets.sr6character import SR6Character
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -14,7 +19,7 @@ class ConfiguredBaseModel(BaseModel):
 
   model_config = PYDANTIC_CONFIG
 
-  _top: SR6Character = None  # type: ignore
+  _top: "SR6Character" = None  # pyright: ignore[reportAssignmentType]
 
   def _propogate_top(self) -> None:
     for _, field_value in self:
@@ -35,6 +40,8 @@ class ConfiguredBaseModel(BaseModel):
             if isinstance(item, ConfiguredBaseModel):
               item._top = self._top
               item._propogate_top()
+        case _:
+          pass
     self._post_init()
 
   def _post_init(self) -> None:
@@ -47,7 +54,7 @@ class ConfiguredRootModel[RootT](RootModel[RootT]):
 
   model_config = PYDANTIC_CONFIG
 
-  _top: SR6Character = None  # type: ignore
+  _top: SR6Character = None  # pyright: ignore[reportAssignmentType]
 
   def _propogate_top(self) -> None:
     raise NotImplementedError("Root models must implement their own _propogate_top method.")
@@ -62,6 +69,7 @@ class ConfiguredListModel[ContainedT](ConfiguredRootModel[list[ContainedT]]):
 
   root: list[ContainedT]
 
+  @override
   def _propogate_top(self) -> None:
     for field_value in self.root:
       match field_value:
@@ -81,6 +89,8 @@ class ConfiguredListModel[ContainedT](ConfiguredRootModel[list[ContainedT]]):
             if isinstance(item, ConfiguredBaseModel):
               item._top = self._top
               item._propogate_top()
+        case _:
+          pass
     self._post_init()
 
   def __iter__(self) -> Generator[ContainedT]:  # type: ignore

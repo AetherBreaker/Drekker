@@ -12,10 +12,8 @@ from drekker.settings import Settings
 logger = getLogger(__name__)
 
 
-# Settings
-SETTINGS = Settings()  # type: ignore
+SETTINGS = Settings()
 
-# Folder paths
 CWD = Path.cwd()
 PYDANTIC_CONFIG = ConfigDict(
   populate_by_name=True,

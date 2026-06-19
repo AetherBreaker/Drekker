@@ -36,14 +36,14 @@ SETTINGS: Settings = Settings(**{})
 type RootLogger = logging.Logger
 type QueueCatchall = InterpreterQueue | ProcessQueue[FixedLogRecord] | ThreadQueue[FixedLogRecord]
 
-__GLOBAL_LOG_RECEIVER: QueueHandler | None = None
-__PREFERRED_FILE_FORMATTER: FixedFormatter | None = None
+__global_log_receiver: QueueHandler | None = None
+__preferred_file_formatter: FixedFormatter | None = None
 
 
 def get_global_log_receiver() -> QueueHandler:
-  if __GLOBAL_LOG_RECEIVER is None:
+  if __global_log_receiver is None:
     raise RuntimeError("Global log receiver has not been configured yet")
-  return __GLOBAL_LOG_RECEIVER
+  return __global_log_receiver
 
 
 __DEFAULT_MAX_WIDTH = 36
@@ -51,19 +51,19 @@ __DEFAULT_TIMESTAMP_FORMAT = "%b, %d %a %I:%M %p"
 
 
 def get_preferred_logrecord_formatter(default_max_width: int | None = None, timestamp_format: str | None = None) -> FixedFormatter:
-  global __PREFERRED_FILE_FORMATTER
-  if __PREFERRED_FILE_FORMATTER is None:
-    __PREFERRED_FILE_FORMATTER = FixedFormatter(
+  global __preferred_file_formatter
+  if __preferred_file_formatter is None:
+    __preferred_file_formatter = FixedFormatter(
       fmt=f"{{libpath: <{default_max_width or __DEFAULT_MAX_WIDTH}}} | [{{asctime}}] | {{levelname: >8}} | {{message}}",
       datefmt=timestamp_format or __DEFAULT_TIMESTAMP_FORMAT,
       style="{",
     )
-  return __PREFERRED_FILE_FORMATTER
+  return __preferred_file_formatter
 
 
 def set_preferred_logrecord_formatter(formatter: FixedFormatter) -> None:
-  global __PREFERRED_FILE_FORMATTER
-  __PREFERRED_FILE_FORMATTER = formatter
+  global __preferred_file_formatter
+  __preferred_file_formatter = formatter
 
 
 def configure_base_once():
@@ -176,8 +176,8 @@ def configure_logging_main(  # noqa: PLR0915
 
   file_log_queue: Queue[logging.LogRecord] = Queue(-1)
 
-  global __GLOBAL_LOG_RECEIVER
-  __GLOBAL_LOG_RECEIVER = QueueHandler(file_log_queue)
+  global __global_log_receiver
+  __global_log_receiver = QueueHandler(file_log_queue)
 
   listeners = [
     QueueListener(
@@ -189,10 +189,10 @@ def configure_logging_main(  # noqa: PLR0915
 
   if logging_queues:
     for queue in logging_queues:
-      new_listener = QueueListener(queue, __GLOBAL_LOG_RECEIVER)
+      new_listener = QueueListener(queue, __global_log_receiver)
       listeners.append(new_listener)
 
-  root.addHandler(__GLOBAL_LOG_RECEIVER)
+  root.addHandler(__global_log_receiver)
 
   for listener in listeners:
     listener.start()

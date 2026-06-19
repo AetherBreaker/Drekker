@@ -1,5 +1,5 @@
 # Standard library imports
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 # Third party imports
 from textual.screen import Screen
@@ -28,6 +28,7 @@ class DrekkerCore(Screen):
 
   BORDER_TITLE = "DrekkerCore"
 
+  @override
   def compose(self) -> ComposeResult:
     yield Header()
     yield CoreTabs()

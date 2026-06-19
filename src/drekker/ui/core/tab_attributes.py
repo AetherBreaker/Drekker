@@ -1,6 +1,6 @@
 # Standard library imports
 from re import sub
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 # Third party imports
 from textual.containers import Container, HorizontalGroup, VerticalGroup
@@ -33,6 +33,7 @@ class AttributesTab(CoreTabContainerBase):
       disabled=disabled,
     )
 
+  @override
   def compose(self) -> ComposeResult:  # sourcery skip: extract-duplicate-method
     with VerticalGroup(classes="test vert1") as vert1:
       vert1.border_title = "vert1"
@@ -150,6 +151,7 @@ class AttrTable(HorizontalGroup):
     }
     """
 
+  @override
   def compose(self) -> ComposeResult:
     attr_labels = []
     attr_incs = []

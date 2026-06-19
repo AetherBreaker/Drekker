@@ -3,7 +3,7 @@ from collections.abc import Callable  # noqa: TC003
 from enum import StrEnum
 from functools import wraps
 from logging import getLogger
-from typing import Annotated, Any, cast
+from typing import Annotated, Any, cast, override
 
 # Third party imports
 from pydantic import Field
@@ -23,7 +23,7 @@ def _new_updated_dict[KeyT: StrEnum](keytype: type[KeyT]) -> Callable[[], dict[K
 
 
 def default_criteria(stack: EntryStack) -> bool:
-  return any(stack._mods_updated.values()) or any(stack._entries_updated.values())
+  return any(stack.mods_updated.values()) or any(stack.entries_updated.values())
 
 
 def cache_if[**TP, TR](
@@ -54,8 +54,8 @@ def cache_if[**TP, TR](
 class EntryStack(ConfiguredListModel[EntryBase]):
   """A wrapper around a list of EntryBase objects that represents the stack of entries on a character sheet."""
 
-  _mods_updated: dict[ModTargetType, bool] = Field(default_factory=_new_updated_dict(ModTargetType), exclude=True)
-  _entries_updated: dict[EntryType, bool] = Field(default_factory=_new_updated_dict(EntryType), exclude=True)
+  mods_updated: dict[ModTargetType, bool] = Field(default_factory=_new_updated_dict(ModTargetType), exclude=True)
+  entries_updated: dict[EntryType, bool] = Field(default_factory=_new_updated_dict(EntryType), exclude=True)
 
 
 class SR6Character(ConfiguredBaseModel):
@@ -69,11 +69,13 @@ class SR6Character(ConfiguredBaseModel):
   def modification_stack(self) -> tuple[ModificationEntry, ...]:  # Read only
     return tuple(mod for entry in self.entry_stack for mod in entry.modifications)
 
+  @override
   def model_post_init(self, _: Any) -> None:
-    if self._top is None:
+    if self._top is None:  # pyright: ignore[reportUnnecessaryComparison]
       self._top = self
       self._propogate_top()
 
+  @override
   def __hash__(self) -> int:
     # serialize self to a json string and return it's hash
     return hash(self.model_dump_json())

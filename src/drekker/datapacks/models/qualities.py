@@ -2,7 +2,7 @@
 import operator
 from enum import auto
 from functools import reduce
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 # Third party imports
 from pydantic import model_validator
@@ -100,6 +100,7 @@ class Quality(Datapack):
       raise ValueError(f"subcategory must be a {allowed.__name__} value for category={self.category!r}")
     return self
 
+  @override
   @classmethod
   def __get_pydantic_json_schema__(cls, core_schema: cs.CoreSchema, handler: GetJsonSchemaHandler) -> dict[str, Any]:
     json_schema = handler(core_schema)
