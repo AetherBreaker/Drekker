@@ -1,5 +1,4 @@
 {
-    "python.analysis.typeCheckingMode": "standard",
     "json.schemas": [
         {
             "fileMatch": ["./datapacks/*.json"],

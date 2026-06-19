@@ -1,12 +1,17 @@
 [project]
-  authors = [
+  name            = "drekker"
+  version         = "0.1.1.dev1"
+  description     = "Add your description here"
+  readme          = "README.md"
+  requires-python = ">=3.14"
+  authors         = [
     { name = "Jacob Ogden", email = "jacob.ogden@yahoo.com" },
   ]
-  dependencies = [
+  dependencies    = [
     "aiologic>=0.16.0",
     "pandas[performance]>=3.0.1",
-    "pydantic-settings>=2.13.1",
     "pydantic>=2.12.5",
+    "pydantic-settings>=2.13.1",
     "python-dateutil>=2.9.0.post0",
     "rapidfuzz>=3.14.3",
     "rich-pixels>=3.0.1",
@@ -32,11 +37,6 @@
     "uvloop>=0.22.1 ; sys_platform == 'linux'",
     "winloop>=0.6.0 ; sys_platform == 'win32'",
   ]
-  description = "Add your description here"
-  name = "drekker"
-  readme = "README.md"
-  requires-python = ">=3.14"
-  version = "0.1.1.dev1"
 
   [project.scripts]
     schemagen = "drekker.datapacks.models.serializer:generate_schemas"
@@ -49,11 +49,47 @@
     "types-python-dateutil>=2.9.0.20260323",
   ]
 
-
 [build-system]
-  build-backend = "uv_build"
-  requires = [
+  requires      = [
     "uv_build>=0.11.19,<0.12",
+  ]
+  build-backend = "uv_build"
+
+[tool.pyright]
+  verboseOutput          = true
+  useLibraryCodeForTypes = true
+
+  enableReachabilityAnalysis  = true
+  analyzeUnannotatedFunctions = true
+  deprecateTypingAliases      = true
+
+  typeCheckingMode = "standard"
+
+  reportPropertyTypeMismatch          = true
+  reportMissingTypeStubs              = true
+  reportImportCycles                  = true
+  reportUntypedFunctionDecorator      = true
+  reportUntypedClassDecorator         = true
+  reportUntypedNamedTuple             = true
+  reportPrivateUsage                  = true
+  reportConstantRedefinition          = true
+  reportDeprecated                    = true
+  reportMissingSuperCall              = true
+  reportUninitializedInstanceVariable = true
+  reportMissingParameterType          = true
+  # reportMissingTypeArgument           = true
+  reportUnnecessaryIsInstance         = true
+  reportUnnecessaryCast               = true
+  reportUnnecessaryComparison         = true
+  reportUnnecessaryContains           = true
+  reportInvalidStubStatement          = true
+  reportUnnecessaryTypeIgnoreComment  = true
+  reportMatchNotExhaustive            = true
+  reportUnreachable                   = true
+  reportImplicitOverride              = true
+
+  executionEnvironments = [
+    { root = "src", extraPaths = ["src"] },
   ]
 
 [tool.ruff]
@@ -65,8 +101,7 @@
 
   [tool.ruff.lint.flake8-type-checking]
     # Keeps imports intact if they are used as types inside a Pydantic model
-    exempt-modules = [
-    ]
+    exempt-modules                 = []
     runtime-evaluated-base-classes = [
       "drekker.datapacks.models.Datapack",
       "drekker.datapacks.models._pieces.DatapackPiece",
@@ -76,3 +111,12 @@
       "pydantic.BaseModel",
       "pydantic_settings.BaseSettings",
     ]
+
+[tool.tombi]
+  toml-version = "v1.1.0"
+
+  [tool.tombi.format.rules]
+    indent-sub-tables               = true
+    indent-table-key-value-pairs    = true
+    key-value-equals-sign-alignment = true
+    trailing-comment-alignment      = true
