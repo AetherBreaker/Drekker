@@ -3,11 +3,7 @@ from decimal import Decimal
 from enum import StrEnum, auto
 from typing import NamedTuple
 
-
-class Costs(NamedTuple):
-  KARMA: int = 0
-  NUYEN: int = 0
-  ESSENCE: Decimal = Decimal(0)
+__all__ = ["Costs", "EntryTypeBase", "ModType", "TargetCodeBase"]
 
 
 class ModType(StrEnum):
@@ -20,6 +16,12 @@ class ModType(StrEnum):
   # Used for things that want to toggle the existing state of a feature rather than
   # override it
   TOGGLE = auto()
+
+
+class Costs(NamedTuple):
+  KARMA: int = 0
+  NUYEN: int = 0
+  ESSENCE: Decimal = Decimal(0)
 
 
 class TargetCodeBase(StrEnum):

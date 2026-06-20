@@ -11,11 +11,19 @@ from typing import Annotated, Any, Self, cast, override
 from pydantic import Field, model_validator
 
 # First party imports
-from drekker.enumerated_constants.character_values import CharacterValue
 from drekker.sheets.base._sheet_basemodels import ConfiguredBaseModel, ConfiguredListModel
 from drekker.sheets.base.types import Costs, EntryTypeBase, ModType, TargetCodeBase
 
 logger = getLogger(__name__)
+
+
+__all__ = [
+  "EntryBase",
+  "EntryStack",
+  "Modification",
+  "SheetBase",
+  "cache_if",
+]
 
 
 def default_criteria(stack: EntryStack) -> bool:
@@ -48,7 +56,7 @@ def cache_if[**TP, TR](
 
 
 class Modification[TargetCode_T: TargetCodeBase](ConfiguredBaseModel):
-  target: CharacterValue
+  target: tuple[TargetCode_T, ...]
   type: ModType
   op: Callable[[SheetBase], dict[TargetCode_T, int | Decimal | bool]]
 
@@ -73,27 +81,29 @@ class Modification[TargetCode_T: TargetCodeBase](ConfiguredBaseModel):
     return self.value
 
 
-class EntryBase[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase](ABC, ConfiguredBaseModel):
+class EntryBase[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase, Cost_T: Costs](ABC, ConfiguredBaseModel):
   type: EntryTypeT
   name: str
   modifications: Annotated[tuple[Modification[TargetCode_T], ...], Field(default_factory=tuple)]
 
   @cached_property
-  def costs(self) -> Costs: ...
+  def costs(self) -> Cost_T: ...
 
   @cached_property
   def rating(self) -> int | Decimal: ...
 
 
-class EntryStackRoot[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase](
-  ConfiguredListModel[EntryBase[TargetCode_T, EntryTypeT]]
+class EntryStackRoot[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase, Cost_T: Costs](
+  ConfiguredListModel[EntryBase[TargetCode_T, EntryTypeT, Cost_T]]
 ): ...
 
 
-class EntryStack[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase](ConfiguredBaseModel):
+class EntryStack[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase, Cost_T: Costs](ConfiguredBaseModel):
   """A wrapper around a list of EntryBase objects that represents the stack of entries on a character sheet."""
 
-  stack: EntryStackRoot[TargetCode_T, EntryTypeT] = Field(default_factory=lambda: EntryStackRoot[TargetCode_T, EntryTypeT](root=[]))
+  stack: EntryStackRoot[TargetCode_T, EntryTypeT, Cost_T] = Field(
+    default_factory=lambda: EntryStackRoot[TargetCode_T, EntryTypeT, Cost_T](root=[])
+  )
 
   mods_updated: dict[TargetCode_T, bool] = Field(default_factory=dict, exclude=True)
   entries_updated: dict[EntryTypeT, bool] = Field(default_factory=dict, exclude=True)
@@ -104,7 +114,7 @@ class EntryStack[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase](Config
     type parameter, defaulting every value to False."""
     args = self.__pydantic_generic_metadata__["args"]
     if args:
-      target_code_cls, entry_type_cls = cast("tuple[type[TargetCodeBase], type[EntryTypeBase]]", args)
+      target_code_cls, entry_type_cls, _ = cast("tuple[type[TargetCodeBase], type[EntryTypeBase], type[Costs]]", args)
     else:
       target_code_cls, entry_type_cls = TargetCodeBase, EntryTypeBase
     if not self.mods_updated:
@@ -114,15 +124,17 @@ class EntryStack[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase](Config
     return self
 
 
-class SheetBase(ConfiguredBaseModel):
-  entry_stack: Annotated[EntryStack, Field(default_factory=list)]
+class SheetBase[TargetCode_T: TargetCodeBase, EntryTypeT: EntryTypeBase, Cost_T: Costs](ConfiguredBaseModel):
+  entry_stack: Annotated[EntryStack[TargetCode_T, EntryTypeT, Cost_T], Field(default_factory=list)]
 
-  def get_filtered_stack(self, criteria: type[EntryBase]) -> list[EntryBase]:
+  def get_filtered_stack(
+    self, criteria: type[EntryBase[TargetCode_T, EntryTypeT, Cost_T]]
+  ) -> list[EntryBase[TargetCode_T, EntryTypeT, Cost_T]]:
     return [entry for entry in self.entry_stack if isinstance(entry, criteria)]
 
   @property
   @cache_if()
-  def modification_stack(self) -> tuple[Modification, ...]:  # Read only
+  def modification_stack(self) -> tuple[Modification[TargetCode_T], ...]:  # Read only
     return tuple(mod for entry in self.entry_stack.stack for mod in entry.modifications)
 
   @override
