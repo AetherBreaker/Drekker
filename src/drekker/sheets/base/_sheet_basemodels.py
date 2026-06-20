@@ -11,7 +11,7 @@ from drekker.project_vars import PYDANTIC_CONFIG
 
 if TYPE_CHECKING:
   # First party imports
-  from drekker.sheets.sr6character import SR6Character
+  from drekker.sheets.base import SheetBase
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -19,7 +19,7 @@ class ConfiguredBaseModel(BaseModel):
 
   model_config = PYDANTIC_CONFIG
 
-  _top: "SR6Character" = None  # pyright: ignore[reportAssignmentType]
+  _top: SheetBase = None  # pyright: ignore[reportAssignmentType]
 
   def _propogate_top(self) -> None:
     for _, field_value in self:
@@ -54,7 +54,7 @@ class ConfiguredRootModel[RootT](RootModel[RootT]):
 
   model_config = PYDANTIC_CONFIG
 
-  _top: SR6Character = None  # pyright: ignore[reportAssignmentType]
+  _top: SheetBase = None  # pyright: ignore[reportAssignmentType]
 
   def _propogate_top(self) -> None:
     raise NotImplementedError("Root models must implement their own _propogate_top method.")

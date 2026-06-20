@@ -2,7 +2,8 @@
 from functools import cached_property
 
 # First party imports
-from drekker.sheets.entry_types import Costs, EntryBase
+from drekker.sheets.base import EntryBase
+from drekker.sheets.base.types import Costs
 
 
 class AttrEntryBase(EntryBase):

@@ -103,13 +103,14 @@
     # Keeps imports intact if they are used as types inside a Pydantic model
     exempt-modules                 = []
     runtime-evaluated-base-classes = [
-      "drekker.datapacks.models.Datapack",
-      "drekker.datapacks.models._pieces.DatapackPiece",
-      "drekker.sheets.ConfiguredBaseModel",
-      "drekker.sheets.entry_types.EntryBase",
-      "drekker.sheets.entry_types.attrbase.AttrEntryBase",
-      "pydantic.BaseModel",
-      "pydantic_settings.BaseSettings",
+      "drekker.sheets.base.__init__.Modification",
+      "drekker.sheets.base.__init__.EntryBase",
+      "drekker.sheets.base.__init__.EntryStackRoot",
+      "drekker.sheets.base.__init__.EntryStack",
+      "drekker.sheets.base.__init__.SheetBase",
+      "drekker.sheets.base._sheet_basemodels.ConfiguredBaseModel",
+      "drekker.sheets.base._sheet_basemodels.ConfiguredRootModel",
+      "drekker.sheets.base._sheet_basemodels.ConfiguredListModel",
     ]
 
 [tool.tombi]
