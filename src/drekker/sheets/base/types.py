@@ -1,12 +1,15 @@
 # Standard library imports
 from decimal import Decimal
-from enum import StrEnum, auto
+from enum import auto
 from typing import NamedTuple
+
+# First party imports
+from drekker.typing import StrEnumBase
 
 __all__ = ["Costs", "EntryTypeBase", "ModType", "TargetCodeBase"]
 
 
-class ModType(StrEnum):
+class ModType(StrEnumBase):
   NUMERIC = auto()
 
   # Used for things that the sheet class will by default check for
@@ -24,13 +27,13 @@ class Costs(NamedTuple):
   ESSENCE: Decimal = Decimal(0)
 
 
-class TargetCodeBase(StrEnum):
+class TargetCodeBase(StrEnumBase):
   # STRENGTH = auto()
   # BODY = auto()
   ...
 
 
-class EntryTypeBase(StrEnum):
+class EntryTypeBase(StrEnumBase):
   # ATTRIBUTE = auto()
   # SKILL = auto()
   # SKILL_LANGUAGE = auto()

@@ -7,8 +7,9 @@ import typer
 from pydantic import BaseModel, Field
 
 # First party imports
-from drekker.datapacks.models.qualities import Quality
 from drekker.project_vars import PYDANTIC_CONFIG
+from drekker.systems.sr6.datapacks.models.gear import AnyGear
+from drekker.systems.sr6.datapacks.models.qualities import Quality
 
 
 class DatapackSerializer(BaseModel):
@@ -18,6 +19,11 @@ class DatapackSerializer(BaseModel):
     default=None,
     description="""A list of qualities that the datapack has.
     This can be used to determine which features to enable or disable when loading the datapack.""",
+  )
+
+  gear: list[AnyGear] | None = Field(
+    default=None,
+    description="A list of gear items defined by this datapack.",
   )
 
 

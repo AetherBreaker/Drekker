@@ -45,8 +45,11 @@
   dev = [
     "debugpy>=1.8.21",
     "nuitka>=4.1.2",
+    "ordered-set>=4.1.0",
     "pandas-stubs>=3.0.0.260204",
+    "poethepoet>=0.46.0",
     "types-python-dateutil>=2.9.0.20260323",
+    "zstandard>=0.25.0",
   ]
 
 [build-system]
@@ -54,6 +57,20 @@
     "uv_build>=0.11.19,<0.12",
   ]
   build-backend = "uv_build"
+
+[tool.poe.tasks.build-win]
+  help = "Build the Drekker app for Windows with Nuitka using the MSVC compiler"
+  cmd  = """
+    uv run nuitka
+      --standalone
+      --msvc=latest
+      --output-dir=build
+      --output-filename=drekker.exe
+      --windows-console-mode=force
+      --include-data-files=src/drekker/drekker.tcss=drekker.tcss
+      --include-data-files=src/drekker/ui/core/core_tabs.tcss=ui/core/core_tabs.tcss
+      src/drekker/
+  """
 
 [tool.pyright]
   verboseOutput          = true
@@ -112,12 +129,10 @@
       "drekker.sheets.base._sheet_basemodels.ConfiguredBaseModel",
       "drekker.sheets.base._sheet_basemodels.ConfiguredRootModel",
       "drekker.sheets.base._sheet_basemodels.ConfiguredListModel",
-      "drekker.datapacks.models.__init__.Datapack",
-      "drekker.datapacks.models._pieces.DatapackPiece",
-      "drekker.datapacks.models._pieces.RewardsEdge",
-      "drekker.datapacks.models._pieces.Note",
-      "drekker.datapacks.models.qualities.Quality",
-      "drekker.datapacks.models.serializer.DatapackSerializer",
+      "drekker.systems.sr6.datapacks.__init__.Datapack",
+      "drekker.systems.sr6.datapacks.models.__init__.Datapack",
+      "drekker.datapacks.models.base.DatapackBase",
+      "drekker.datapacks.models.base.DatapackPiece",
     ]
 
 [tool.tombi]

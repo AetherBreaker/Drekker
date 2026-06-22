@@ -8,10 +8,10 @@ from typing import TYPE_CHECKING, override
 from pydantic import model_validator
 
 # First party imports
-from drekker.datapacks.enums import Sources
-from drekker.datapacks.models import Datapack
-from drekker.datapacks.models._pieces import DatapackPiece
-from drekker.enumerated_constants.targets import ModificationTarget
+from drekker.datapacks.models.base import DatapackPiece
+from drekker.systems.sr6.datapacks.models import Datapack
+from drekker.systems.sr6.datapacks.simple_enums import Sources
+from drekker.systems.sr6.enumerated_constants.targets import ModificationTarget
 from drekker.typing import StrEnumBase
 
 if TYPE_CHECKING:
