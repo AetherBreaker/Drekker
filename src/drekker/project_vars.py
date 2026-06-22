@@ -1,7 +1,6 @@
 # Standard library imports
 from logging import getLogger
 from pathlib import Path
-from sys import modules
 
 # Third party imports
 from pydantic import ConfigDict
@@ -24,15 +23,10 @@ PYDANTIC_CONFIG = ConfigDict(
 )
 
 
-__main_loc = modules["__main__"].__file__
-if __main_loc is None:
-  raise RuntimeError("Could not determine __main__ location.")
-__main_loc = Path(__main_loc)
+# travel up the path until we find a folder named "drekker"
+try:
+  __drekker_package_loc = next(p for p in Path(__file__).parents if p.name == "drekker")
+except StopIteration:
+  raise RuntimeError("Could not find 'drekker' package in the path hierarchy.") from None
 
-if __main_loc.name != "__main__.py":
-  if __debug__:
-    __main_loc = CWD / "src"
-  else:
-    raise RuntimeError(f"Unexpected __main__ location: {__main_loc}")
-
-MAIN_LOCATION = __main_loc.parent
+MAIN_LOCATION = __drekker_package_loc
